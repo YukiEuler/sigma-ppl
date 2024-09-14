@@ -45,6 +45,30 @@ class BuatIRSMahasiswaController extends Controller
     $mahasiswa->nama_fakultas = $fakultas->nama_fakultas;
     $mahasiswa->tahun_ajaran = ''.($tahun-$periode).'/'.($tahun-$periode+1).' '.$semester;
     
+    $pengisianIRS = KalenderAkademik::where('tahun_akademik', $tahunAkademik->tahun_akademik)
+        ->where('keterangan', 'Pengisian IRS')
+        ->first();
+    $penggantianIRS = KalenderAkademik::where('tahun_akademik', $tahunAkademik->tahun_akademik)
+        ->where('keterangan', 'Periode Penggantian')
+        ->first();
+    $pembatalanIRS = KalenderAkademik::where('tahun_akademik', $tahunAkademik->tahun_akademik)
+        ->where('keterangan', 'Periode Pembatalan')
+        ->first();
+
+    $pengisianIRS->tanggal_mulai = date('Y-m-d', strtotime($pengisianIRS->tanggal_mulai));
+    $pengisianIRS->tanggal_selesai = date('Y-m-d', strtotime($pengisianIRS->tanggal_selesai));
+    $penggantianIRS->tanggal_mulai = date('Y-m-d', strtotime($penggantianIRS->tanggal_mulai));
+    $penggantianIRS->tanggal_selesai = date('Y-m-d', strtotime($penggantianIRS->tanggal_selesai));
+    $pembatalanIRS->tanggal_mulai = date('Y-m-d', strtotime($pembatalanIRS->tanggal_mulai));
+    $pembatalanIRS->tanggal_selesai = date('Y-m-d', strtotime($pembatalanIRS->tanggal_selesai));
+    $pengisianIRS->status = 'pengisian IRS';
+    $pembatalanIRS->status = 'pembatalan IRS';
+    if ($dateNow > $pembatalanIRS->tanggal_selesai){
+        return Inertia::render('(mahasiswa)/buat-irs-mahasiswa/altPage', ['mahasiswa' => $mahasiswa, 'periode' => $pembatalanIRS]);
+    } elseif ($dateNow < $pengisianIRS->tanggal_mulai){
+        return Inertia::render('(mahasiswa)/buat-irs-mahasiswa/altPage', ['mahasiswa' => $mahasiswa, 'periode' => $pengisianIRS]);
+    }
+
     $ips = Khs::join('mahasiswa', 'khs.nim', '=', 'mahasiswa.nim')
         ->select(DB::raw('SUM(khs.bobot * CASE 
             WHEN khs.nilai_huruf = "A" THEN 4
@@ -140,6 +164,8 @@ class BuatIRSMahasiswaController extends Controller
         })
         ->values();
     
+    $mahasiswa->periode_ganti = $penggantianIRS->tanggal_mulai <= $dateNow && $dateNow <= $penggantianIRS->tanggal_selesai;
+    $mahasiswa->periode_ganti = $mahasiswa->periode_ganti || $pengisianIRS->tanggal_mulai <= $dateNow && $dateNow <= $pengisianIRS->tanggal_selesai;
     return Inertia::render('(mahasiswa)/buat-irs-mahasiswa/page', ['mahasiswa' => $mahasiswa, 'jadwal' => $jadwal, 'irs' => $irs]);
     }
 

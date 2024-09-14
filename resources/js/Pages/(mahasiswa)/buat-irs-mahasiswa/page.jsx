@@ -60,43 +60,6 @@ const BuatIRSMahasiswa = () => {
         return new Date(1970, 0, 1, hours, minutes, seconds);
     };
 
-    const formatIndonesianDate = (dateStr) => {
-        const days = [
-            "Minggu",
-            "Senin",
-            "Selasa",
-            "Rabu",
-            "Kamis",
-            "Jumat",
-            "Sabtu",
-        ];
-        const months = [
-            "Januari",
-            "Februari",
-            "Maret",
-            "April",
-            "Mei",
-            "Juni",
-            "Juli",
-            "Agustus",
-            "September",
-            "Oktober",
-            "November",
-            "Desember",
-        ];
-
-        const [day, month, year] = dateStr.split("-").map(Number);
-        const date = new Date(year, month - 1, day);
-
-        const dayName = days[date.getDay()];
-        const monthName = months[date.getMonth()];
-
-        return `${dayName}, ${String(day).padStart(
-            2,
-            "0"
-        )} ${monthName} ${year}`;
-    };
-
     // Calculate total credits
     const totalCredits = registeredCourses.reduce(
         (sum, course) => sum + course.sks,
@@ -240,7 +203,7 @@ const BuatIRSMahasiswa = () => {
 
     useEffect(() => {
         const checkSchedule = () => {
-            const now = new Date("2024-08-31");
+            const now = new Date("2023-08-31");
             const startDate = parseDate(academicCalendar.irsSchedule.startDate);
             const endDate = parseDate(academicCalendar.irsSchedule.endDate);
 
@@ -310,7 +273,10 @@ const BuatIRSMahasiswa = () => {
                                                         });
                                                         const maxSks = totalCredits + course.sks > mahasiswa.maxSks;
                                                         let tooltipMessage = '';
-                                                        if (isVerified) {
+                                                        const periodeGanti = Boolean(mahasiswa.periode_ganti);
+                                                        if (!periodeGanti){
+                                                            tooltipMessage = 'Tidak dalam periode penggantian'
+                                                        } else if (isVerified) {
                                                             tooltipMessage = 'IRS telah disetujui';
                                                         } else if (isSubmitted) {
                                                             tooltipMessage = 'IRS telah diajukan';
@@ -334,7 +300,7 @@ const BuatIRSMahasiswa = () => {
                                                                         ? "cursor-not-allowed bg-yellow-100 hover:bg-yellow-200"
                                                                         : bentrok || maxSks
                                                                         ? "cursor-not-allowed bg-red-400 hover:bg-red-500"
-                                                                        : isSubmitted || isVerified
+                                                                        : isSubmitted || isVerified || !periodeGanti
                                                                         ? "cursor-not-allowed bg-blue-200 hover:bg-blue-300"
                                                                         : "cursor-pointer bg-blue-200 hover:bg-blue-300"
                                                                 }`}
@@ -345,6 +311,7 @@ const BuatIRSMahasiswa = () => {
                                                                     !isSubmitted &&
                                                                     !isVerified &&
                                                                     !maxSks &&
+                                                                    periodeGanti &&
                                                                     handleClassSelect(
                                                                         course,
                                                                         classInfo
@@ -406,42 +373,6 @@ const BuatIRSMahasiswa = () => {
             </table>
         </div>
     );
-
-    if (!isWithinSchedule) {
-        return (
-            <MahasiswaLayout mahasiswa={mahasiswa}>
-                <div className="flex flex-col items-start justify-between mt-2 pb-3 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
-                    <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
-                        Buat IRS
-                    </h1>
-                </div>
-                <div className="flex flex-col items-center justify-center h-full bg-gray-50">
-                    <div className="text-center mb-8">
-                        <div className="mx-auto mb-4 flex justify-center">
-                            <Calendar className="w-16 h-16 text-gray-400" />
-                        </div>
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                            Tidak dalam periode pembatalan IRS
-                        </h2>
-                        <p className="text-gray-600">
-                            Pembatalan IRS dapat dilakukan pada{" "}
-                            <span className="font-semibold">
-                                {formatIndonesianDate(
-                                    academicCalendar.irsSchedule.startDate
-                                )}
-                            </span>{" "}
-                            sampai{" "}
-                            <span className="font-semibold">
-                                {formatIndonesianDate(
-                                    academicCalendar.irsSchedule.endDate
-                                )}
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </MahasiswaLayout>
-        );
-    }
 
     return (
         <MahasiswaLayout mahasiswa={mahasiswa}>

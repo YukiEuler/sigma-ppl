@@ -41,12 +41,36 @@ class KalenderAkademikSeeder extends Seeder
             'keterangan'=>'Periode Tahun Akademik',
         ]);
         KalenderAkademik::create([
-            'tanggal_mulai' => '2024-08-09',
-            'tanggal_selesai'=>'2024-12-27',
+            'tanggal_mulai' => '2024-07-02',
+            'tanggal_selesai'=>'2024-08-25',
             'id_prodi'=> NULL,
             'id_fakultas'=> NULL,
             'tahun_akademik'=> '2024-2',
             'keterangan'=>'Pengisian IRS',
+        ]);
+        KalenderAkademik::create([
+            'tanggal_mulai' => '2024-08-19',
+            'tanggal_selesai'=>'2024-12-06',
+            'id_prodi'=> NULL,
+            'id_fakultas'=> NULL,
+            'tahun_akademik'=> '2024-2',
+            'keterangan'=>'Masa Kuliah',
+        ]);
+        KalenderAkademik::create([
+            'tanggal_mulai' => '2024-08-19',
+            'tanggal_selesai'=>'2024-09-01',
+            'id_prodi'=> NULL,
+            'id_fakultas'=> NULL,
+            'tahun_akademik'=> '2024-2',
+            'keterangan'=>'Periode Penggantian',
+        ]);
+        KalenderAkademik::create([
+            'tanggal_mulai' => '2024-08-19',
+            'tanggal_selesai'=>'2024-09-15',
+            'id_prodi'=> NULL,
+            'id_fakultas'=> NULL,
+            'tahun_akademik'=> '2024-2',
+            'keterangan'=>'Periode Pembatalan',
         ]);
     }
 }
