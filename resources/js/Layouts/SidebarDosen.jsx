@@ -46,7 +46,7 @@ const SidebarDosen = ({ dosen }) => {
                             <span className="ms-3">Home</span>
                         </a>
                     </li>
-                    <li>
+                    {/* <li>
                         <a
                             href="/dosen/profile"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
@@ -58,7 +58,7 @@ const SidebarDosen = ({ dosen }) => {
                             />
                             <span class="ms-3">Profile</span>
                         </a>
-                    </li>
+                    </li> */}
                     <li>
                         <a
                             href="/dosen/perwalian"
