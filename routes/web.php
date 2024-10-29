@@ -53,4 +53,5 @@ Route::get('mahasiswa/irs', [IRSMahasiswaController::class, 'index'])->name('mah
 Route::get('dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/profile', [ProfileDosenController::class, 'index'])->name('dosen.profile')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/perwalian', [PerwalianDosenController::class, 'index'])->name('dosen.perwalian')->middleware(['auth', 'validateRole:Dosen']);
+Route::get('dosen/perwalian/detail/{id}', [PerwalianDosenController::class, 'detail'])->name('dosen.detailMhs')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/persetujuan-irs', [PersetujuanIRSDosenController::class, 'index'])->name('dosen.persetujuanIRS')->middleware(['auth', 'validateRole:Dosen']);

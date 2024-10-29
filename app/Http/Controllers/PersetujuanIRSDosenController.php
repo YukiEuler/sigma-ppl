@@ -14,11 +14,19 @@ class PersetujuanIRSDosenController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        } elseif ($user->role !== 'Dosen'){
+            return redirect()->route('home');
+        }
+
         $dosen = Dosen::where('user_id', $user->id)->get()->first();
         $programStudi = ProgramStudi::where('id_prodi', $dosen->id_prodi)->first();
         $dosen->nama_prodi = $programStudi->nama_prodi;
         $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
         $dosen->nama_fakultas = $fakultas->nama_fakultas;
+        
         return Inertia::render('(dosen)/persetujuan-irs-dosen/page', ['dosen' => $dosen]);
     }
 }
