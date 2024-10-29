@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import MahasiswaLayout from "../../../Layouts/MahasiswaLayout";
 
-const DashboardMahasiswa = () => {
+const ProfileMahasiswa = () => {
     const { props } = usePage();
     const mahasiswaData = props.mahasiswa;
     const [mahasiswa, setMahasiswa] = useState(mahasiswaData);
@@ -13,9 +13,9 @@ const DashboardMahasiswa = () => {
 
     return (
         <MahasiswaLayout mahasiswa={mahasiswa}>
-            <h2>Home</h2>
+            <h2>Profile</h2>
         </MahasiswaLayout>
     );
 };
 
-export default DashboardMahasiswa;
+export default ProfileMahasiswa;

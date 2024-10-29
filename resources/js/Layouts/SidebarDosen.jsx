@@ -11,7 +11,7 @@ const SidebarDosen = ({ dosen }) => {
             className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar"
         >
-            <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <div className="h-full px-3 py-4 overflow-y-auto" style={{ backgroundColor: "#1EAADF" }}>
                 <ul className="space-y-2 font-medium">
                     <li>
                         <Icon
@@ -36,23 +36,36 @@ const SidebarDosen = ({ dosen }) => {
                     <li>
                         <a
                             href="dashboard"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
-                                icon="ic:baseline-pie-chart"
+                                icon="mingcute:home-3-fill"
                                 width="24"
                                 height="24"
                             />
-                            <span className="ms-3">Dashboard</span>
+                            <span className="ms-3">Home</span>
                         </a>
                     </li>
                     <li>
                         <a
-                            href="dashboard"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            href="/dosen/profile"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
-                                icon="ic:baseline-people"
+                                icon="iconamoon:profile-fill"
+                                width="24"
+                                height="24"
+                            />
+                            <span class="ms-3">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="/dosen/perwalian"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                        >
+                            <Icon
+                                icon="fluent:people-team-32-filled"
                                 width="24"
                                 height="24"
                             />
@@ -61,18 +74,18 @@ const SidebarDosen = ({ dosen }) => {
                     </li>
                     <li>
                         <a
-                            href="dashboard"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            href="/dosen/persetujuan-irs"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
                                 icon="solar:notebook-bookmark-bold"
                                 width="24"
                                 height="24"
                             />
-                            <span className="ms-3">Nilai</span>
+                            <span className="ms-3">Persetujuan IRS</span>
                         </a>
                     </li>
-                    <li>
+                    {/* <li>
                         {dosen.dekan === 1 && (
                             <a
                                 href="/dekan/dashboard"
@@ -86,8 +99,8 @@ const SidebarDosen = ({ dosen }) => {
                                 <span className="ms-3">Dekan Page</span>
                             </a>
                         )}
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                         {dosen.kaprodi === 1 && (
                             <a
                                 href="/kaprodi/dashboard"
@@ -101,11 +114,11 @@ const SidebarDosen = ({ dosen }) => {
                                 <span className="ms-3">Kaprodi Page</span>
                             </a>
                         )}
-                    </li>
+                    </li> */}
                     <li>
                         <a
                             href="/actionlogout"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
                                 icon="ri:logout-box-r-fill"
