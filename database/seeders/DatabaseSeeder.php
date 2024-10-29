@@ -35,31 +35,31 @@ class DatabaseSeeder extends Seeder
         
         $userDosen = User::create([
             'username' => '197308291998022001',
-            'email' => 'arispw@gmail.com',
+            'email' => 'rudolf@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'Dosen',
         ]);
 
-        $userDekan = User::create([
-            'username' => '197312202000121005',
-            'email' => 'farikhin@gmail.com',
-            'password' => Hash::make('password'),
-            'role' => 'Dosen',
-        ]);
+        // $userDekan = User::create([
+        //     'username' => '197312202000121005',
+        //     'email' => 'farikhin@gmail.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'Dosen',
+        // ]);
 
-        $userKaprodi = User::create([
-            'username' => '197312202000121018',
-            'email' => 'aris@gmail.com',
-            'password' => Hash::make('password'),
-            'role' => 'Dosen',
-        ]);
+        // $userKaprodi = User::create([
+        //     'username' => '197312202000121018',
+        //     'email' => 'aris@gmail.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'Dosen',
+        // ]);
 
-        $userBagianAkademik = User::create([
-            'username' => '197312202000121001',
-            'email' => 'beta@gmail.com', 
-            'password' => Hash::make('password'),
-            'role' => 'Bagian Akademik',
-        ]);
+        // $userBagianAkademik = User::create([
+        //     'username' => '197312202000121001',
+        //     'email' => 'beta@gmail.com', 
+        //     'password' => Hash::make('password'),
+        //     'role' => 'Bagian Akademik',
+        // ]);
         
         $userMahasiswa = User::create([
             'username' => '24060122120034',
@@ -71,41 +71,32 @@ class DatabaseSeeder extends Seeder
        
         Dosen::create([
             'nip' => $userDosen->username,
-            'nama' => 'Aris Puji Widodo', 
+            'nama' => 'Yesaya Rudolf', 
             'alamat' => 'Jl. Raya Kedungwaru No. 1',
             'no_telp' => '081234567890',
             'id_prodi' => $ProgramStudi->id_prodi,
             'user_id' => $userDosen->id
         ]);
 
-        Dosen::create([
-            'nip' => $userDekan->username,
-            'nama' => 'Farikhin', 
-            'alamat' => 'Jl. Raya Kedungwaru No. 5',
-            'no_telp' => '081234567291',
-            'dekan' => true,
-            'id_prodi' => $ProgramStudi->id_prodi,
-            'user_id' => $userDekan->id
-        ]);
+        // Dosen::create([
+        //     'nip' => $userDekan->username,
+        //     'nama' => 'Farikhin', 
+        //     'alamat' => 'Jl. Raya Kedungwaru No. 5',
+        //     'no_telp' => '081234567291',
+        //     'dekan' => true,
+        //     'id_prodi' => $ProgramStudi->id_prodi,
+        //     'user_id' => $userDekan->id
+        // ]);
 
-        Dosen::create([
-            'nip' => $userKaprodi->username,
-            'nama' => 'Aris Sugiharto', 
-            'alamat' => 'Jl. Raya Kedungwaru No. 7',
-            'no_telp' => '081234567869',
-            'kaprodi' => true,
-            'id_prodi' => $ProgramStudi->id_prodi,
-            'user_id' => $userKaprodi->id
-        ]);
-
-        BagianAkademik::create([
-            'nip' => $userBagianAkademik->username,
-            'nama' => 'Beta Noranita',
-            'alamat' => 'Jl. Raya Kedungwaru No. 2',
-            'no_telp' => '081234567891',
-            'id_fakultas' => $fakultas->id_fakultas,
-            'user_id' => $userBagianAkademik->id
-        ]);
+        // Dosen::create([
+        //     'nip' => $userKaprodi->username,
+        //     'nama' => 'Aris Sugiharto', 
+        //     'alamat' => 'Jl. Raya Kedungwaru No. 7',
+        //     'no_telp' => '081234567869',
+        //     'kaprodi' => true,
+        //     'id_prodi' => $ProgramStudi->id_prodi,
+        //     'user_id' => $userKaprodi->id
+        // ]);
 
         Mahasiswa::create([
             'nim' => $userMahasiswa->username,
