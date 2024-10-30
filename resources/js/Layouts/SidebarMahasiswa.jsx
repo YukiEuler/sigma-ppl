@@ -8,7 +8,10 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
             class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar"
         >
-            <div class="h-full px-3 py-4 overflow-y-auto" style={{ backgroundColor: "#1EAADF" }}>
+            <div
+                class="h-full px-3 py-4 overflow-y-auto"
+                style={{ backgroundColor: "#1EAADF" }}
+            >
                 <ul class="space-y-2 font-medium">
                     <li>
                         <Icon
@@ -56,6 +59,19 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
                             <span class="ms-3">Profile</span>
                         </a>
                     </li> */}
+                    <li>
+                        <a
+                            href="/mahasiswa/irs"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                        >
+                            <Icon
+                                icon="material-symbols:add-notes"
+                                width="24"
+                                height="24"
+                            />
+                            <span class="ms-3">Buat IRS</span>
+                        </a>
+                    </li>
                     <li>
                         <a
                             href="/mahasiswa/irs"
