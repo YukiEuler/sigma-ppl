@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Fakultas;
 use App\Models\ProgramStudi;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -27,7 +28,12 @@ class PerwalianDosenController extends Controller
         $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
         $dosen->nama_fakultas = $fakultas->nama_fakultas;
 
-        return Inertia::render('(dosen)/perwalian-dosen/page', ['dosen' => $dosen]);
+        $mahasiswa = Mahasiswa::where('nip_dosen_wali', $dosen->nip)->get();
+        
+        return Inertia::render('(dosen)/perwalian-dosen/page', [
+            'dosen' => $dosen,
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 
     public function detail($id){

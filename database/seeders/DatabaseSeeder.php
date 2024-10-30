@@ -12,6 +12,7 @@ use App\Models\ProgramStudi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = Faker::create();
+
         $fakultas = Fakultas::create([
             'id_fakultas' => '1',
             'nama_fakultas' => 'Fakultas Ilmu Komputer',
@@ -33,83 +36,49 @@ class DatabaseSeeder extends Seeder
         ]);
 
         
-        $userDosen = User::create([
-            'username' => '197308291998022001',
-            'email' => 'rudolf@gmail.com',
-            'password' => Hash::make('password'),
-            'role' => 'Dosen',
-        ]);
+        $nip = [];
 
-        // $userDekan = User::create([
-        //     'username' => '197312202000121005',
-        //     'email' => 'farikhin@gmail.com',
-        //     'password' => Hash::make('password'),
-        //     'role' => 'Dosen',
-        // ]);
+        for ($i = 0; $i < 5; $i++) {
+            $userDosen = User::create([
+                'username' => $faker->unique()->numerify('##########'),
+                'email' => $faker->unique()->safeEmail(),
+                'password' => Hash::make('password'),
+                'role' => 'Dosen',
+            ]);
 
-        // $userKaprodi = User::create([
-        //     'username' => '197312202000121018',
-        //     'email' => 'aris@gmail.com',
-        //     'password' => Hash::make('password'),
-        //     'role' => 'Dosen',
-        // ]);
+            Dosen::create([
+                'nip' => $userDosen->username,
+                'nama' => $faker->name,
+                'alamat' => $faker->address,
+                'no_telp' => $faker->phoneNumber,
+                'id_prodi' => $ProgramStudi->id_prodi,
+                'user_id' => $userDosen->id
+            ]);
 
-        // $userBagianAkademik = User::create([
-        //     'username' => '197312202000121001',
-        //     'email' => 'beta@gmail.com', 
-        //     'password' => Hash::make('password'),
-        //     'role' => 'Bagian Akademik',
-        // ]);
+            $nip[] = $userDosen->username;
+        }
         
-        $userMahasiswa = User::create([
-            'username' => '24060122120034',
-            'email' => 'sunan@gmail.com',
-            'password' => Hash::make('password'),
-            'role' => 'Mahasiswa',
-        ]);
-
-       
-        Dosen::create([
-            'nip' => $userDosen->username,
-            'nama' => 'Yesaya Rudolf', 
-            'alamat' => 'Jl. Raya Kedungwaru No. 1',
-            'no_telp' => '081234567890',
-            'id_prodi' => $ProgramStudi->id_prodi,
-            'user_id' => $userDosen->id
-        ]);
-
-        // Dosen::create([
-        //     'nip' => $userDekan->username,
-        //     'nama' => 'Farikhin', 
-        //     'alamat' => 'Jl. Raya Kedungwaru No. 5',
-        //     'no_telp' => '081234567291',
-        //     'dekan' => true,
-        //     'id_prodi' => $ProgramStudi->id_prodi,
-        //     'user_id' => $userDekan->id
-        // ]);
-
-        // Dosen::create([
-        //     'nip' => $userKaprodi->username,
-        //     'nama' => 'Aris Sugiharto', 
-        //     'alamat' => 'Jl. Raya Kedungwaru No. 7',
-        //     'no_telp' => '081234567869',
-        //     'kaprodi' => true,
-        //     'id_prodi' => $ProgramStudi->id_prodi,
-        //     'user_id' => $userKaprodi->id
-        // ]);
-
-        Mahasiswa::create([
-            'nim' => $userMahasiswa->username,
-            'nama' => 'Dzu Sunan Muhammad',
-            'alamat' => 'Jl. Raya Kedungwaru No. 3',
-            'no_telp' => '081234567812',
-            'angkatan' => 2022,
-            'jalur_masuk' => 'SNMPTN',
-            'sks_kumulatif' => 0,
-            'ipk' => 0,
-            'id_prodi' => $ProgramStudi->id_prodi,
-            'nip_dosen_wali' => $userDosen->username,
-            'user_id' => $userMahasiswa->id
-        ]);
+        for ($i = 0; $i < 20; $i++){
+            $userMahasiswa = User::create([
+                'username' => $faker->unique()->numerify('24060122130###'),
+                'email' => $faker->unique()->safeEmail(),
+                'password' => Hash::make('password'),
+                'role' => 'Mahasiswa',
+            ]);
+    
+            Mahasiswa::create([
+                'nim' => $userMahasiswa->username,
+                'nama' => $faker->name,
+                'alamat' => $faker->address,
+                'no_telp' => $faker->phoneNumber,
+                'angkatan' => 2022,
+                'jalur_masuk' => 'SBMPTN',
+                'sks_kumulatif' => 0,
+                'ipk' => 0,
+                'id_prodi' => $ProgramStudi->id_prodi,
+                'nip_dosen_wali' => $nip[$i/5],
+                'user_id' => $userMahasiswa->id
+            ]);
+        }
     }
 }

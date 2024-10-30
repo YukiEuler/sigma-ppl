@@ -6,6 +6,8 @@ const PerwalianDosen = () => {
     const { props } = usePage();
     const dosenData = props.dosen;
     const [dosen, setDosen] = useState(dosenData);
+    const mahasiswaData = props.mahasiswa;
+    const [mahasiswa, setMahasiswa] = useState(mahasiswaData);
     const [selectAll, setSelectAll] = useState(false);
     const [checkedItems, setCheckedItems] = useState(new Array(10).fill(false));
 
@@ -21,6 +23,11 @@ const PerwalianDosen = () => {
         setCheckedItems(newCheckedItems);
         setSelectAll(newCheckedItems.every((item) => item));
     };
+
+    useEffect(() => {
+        setDosen(dosenData);
+        setMahasiswa(mahasiswaData);
+    }, [dosenData, mahasiswaData]);
 
     const data = [
         {
@@ -110,10 +117,6 @@ const PerwalianDosen = () => {
             status: "Aktif",
         },
     ];
-
-    useEffect(() => {
-        setDosen(dosenData);
-    }, [dosenData]);
 
     return (
         <DosenLayout dosen={dosen}>
@@ -210,7 +213,7 @@ const PerwalianDosen = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {data.map((item, index) => (
+                                            {mahasiswaData.map((item, index) => (
                                                 <tr
                                                     key={index}
                                                     className="bg-gray-100 border-b"

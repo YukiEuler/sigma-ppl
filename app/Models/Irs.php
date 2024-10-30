@@ -18,6 +18,7 @@ class Irs extends Model
         'tahun',
         'status',
         'nim',
+        'is_verified'
     ];
 
     public function mahasiswa()

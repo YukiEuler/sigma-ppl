@@ -15,6 +15,7 @@ class CreateIrsTable extends Migration
             $table->integer('tahun');
             $table->enum('status', ['Baru', 'Perbaikan', 'Ulang']);
             $table->string('nim', 30);
+            $table->boolean('is_verified')->default(false);
 
             $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('cascade');
