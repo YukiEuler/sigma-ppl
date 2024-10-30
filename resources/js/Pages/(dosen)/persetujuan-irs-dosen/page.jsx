@@ -139,7 +139,7 @@ const PersetujuanIRSDosen = () => {
                 </div>
                 <div className="grid grid-cols-1 gap-5 mt-6">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
-                        <div className="justify-between px-4 border rounded-lg shadow-lg bg-white">
+                        <div className="justify-between px-4 pb-4 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
                                 <form className="max-w-sm mt-6">
                                     <table className="w-full">
@@ -290,6 +290,10 @@ const PersetujuanIRSDosen = () => {
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     <label className="flex items-center">
                                                         <input
@@ -308,54 +312,89 @@ const PersetujuanIRSDosen = () => {
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     No
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "250px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Nama
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-6 py-3"style={{
+                                                        width: "50px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     NIM
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "150px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Prodi
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Angkatan
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     IP Lalu
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     SKS Diambil
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "50px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Status
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "30px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Detail
                                                 </th>
@@ -408,8 +447,8 @@ const PersetujuanIRSDosen = () => {
                                                     <td className="px-6 py-3">
                                                         {item.status}
                                                     </td>
-                                                    <td className="px-6 py-3">
-                                                        <button className="bg-blue-500 text-white px-3 py-1 rounded">
+                                                    <td className="flex items-center mr-1 ml-3 py-3">
+                                                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
                                                             Detail
                                                         </button>
                                                     </td>
@@ -419,7 +458,6 @@ const PersetujuanIRSDosen = () => {
                                     </table>
                                 </div>
                             </div>
-                            <div className="p-3"></div>
                         </div>
                     </div>
                 </div>

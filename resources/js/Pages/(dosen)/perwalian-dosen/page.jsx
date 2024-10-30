@@ -39,7 +39,7 @@ const PerwalianDosen = () => {
                 </div>
                 <div className="grid grid-cols-1 gap-5 mt-6">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
-                        <div className="justify-between px-4 border rounded-lg shadow-lg bg-white">
+                        <div className="justify-between px-4 pb-4 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2 mt-6">
                                 <div className="flex rounded-md border border-blue-500 overflow-hidden max-w-md mx-auto font-[sans-serif]">
                                     <input
@@ -82,86 +82,115 @@ const PerwalianDosen = () => {
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "50px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     No
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "250px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Nama
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "100px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     NIM
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "300px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Prodi
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "50px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Angkatan
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "50px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Status
                                                 </th>
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3"
+                                                    style={{
+                                                        width: "50px",
+                                                        textAlign: "center",
+                                                    }}
                                                 >
                                                     Detail
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {mahasiswaData.map((item, index) => (
-                                                <tr
-                                                    key={index}
-                                                    className="bg-gray-100 border-b"
-                                                >
-                                                    <td className="px-6 py-3">
-                                                        {item.no}
-                                                    </td>
-                                                    <td className="px-6 py-3">
-                                                        {item.nama}
-                                                    </td>
-                                                    <td className="px-6 py-3">
-                                                        {item.nim}
-                                                    </td>
-                                                    <td className="px-6 py-3">
-                                                        {item.prodi}
-                                                    </td>
-                                                    <td className="px-6 py-3">
-                                                        {item.angkatan}
-                                                    </td>
-                                                    <td className="px-6 py-3">
-                                                        {item.status}
-                                                    </td>
-                                                    <td className="px-6 py-3">
-                                                        <a
-                                                            href={`/dosen/perwalian/detail/${item.nim}`}
-                                                            className="bg-blue-500 text-white px-3 py-1 rounded"
-                                                        >
-                                                            Detail
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                            {mahasiswaData.map(
+                                                (item, index) => (
+                                                    <tr
+                                                        key={index}
+                                                        className="bg-gray-100 border-b"
+                                                    >
+                                                        <td className="px-6 py-3">
+                                                            {index + 1}
+                                                        </td>
+                                                        <td className="px-6 py-3">
+                                                            {item.nama}
+                                                        </td>
+                                                        <td className="px-6 py-3">
+                                                            {item.nim}
+                                                        </td>
+                                                        <td className="px-6 py-3">
+                                                            {item.prodi}
+                                                        </td>
+                                                        <td className="px-6 py-3">
+                                                            {item.angkatan}
+                                                        </td>
+                                                        <td className="px-6 py-3">
+                                                            {item.status}
+                                                        </td>
+                                                        <td className="flex items-center ml-4 py-3">
+                                                            <a
+                                                                href={`/dosen/perwalian/detail/${item.nim}`}
+                                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                                                            >
+                                                                Detail
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div className="p-3"></div>
                         </div>
                     </div>
                 </div>
