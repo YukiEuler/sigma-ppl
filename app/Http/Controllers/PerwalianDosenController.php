@@ -45,13 +45,17 @@ class PerwalianDosenController extends Controller
             return redirect()->route('home');
         }
 
-        $dosen = Dosen::where('id_dosen', $id)->first();
+        $mahasiswa = Mahasiswa::where('nim', $id)->first();
+        $dosen = Dosen::where('user_id', $user->id)->first();
+
+        if ($mahasiswa->nip_dosen_wali != $dosen->nip){
+            return redirect()->route('home');
+        }
+
         $programStudi = ProgramStudi::where('id_prodi', $dosen->id_prodi)->first();
         $dosen->nama_prodi = $programStudi->nama_prodi;
         $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
         $dosen->nama_fakultas = $fakultas->nama_fakultas;
-
-        $mahasiswa = $dosen->mahasiswa;
 
         return Inertia::render('(dosen)/perwalian-dosen/detail', [
             'dosen' => $dosen,
