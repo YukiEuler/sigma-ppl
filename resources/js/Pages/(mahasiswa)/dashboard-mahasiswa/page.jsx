@@ -22,7 +22,7 @@ const DashboardMahasiswa = () => {
                 </div>
                 <div className="grid grid-cols-1 gap-5 mt-6">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
-                        <div className="justify-between px-4 border rounded-lg shadow-lg bg-white">
+                        <div className="justify-between px-4 border rounded-lg shadow-lg bg-white pb-3">
                             <div className="flex justify-center items-center mt-3 mb-3">
                                 <Icon
                                     icon="fluent:building-bank-20-filled"
@@ -80,7 +80,7 @@ const DashboardMahasiswa = () => {
 
                 <div className="grid grid-cols-1 gap-5 mt-4">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
-                        <div className="justify-between px-4 border rounded-lg shadow-lg bg-white">
+                        <div className="justify-between px-4 border rounded-lg shadow-lg bg-white pb-3">
                             <div className="flex justify-center items-center mt-3 mb-3">
                                 <Icon
                                     icon="stash:trophy-solid"
