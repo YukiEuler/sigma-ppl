@@ -51,11 +51,6 @@ class Mahasiswa extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function historyPembayaran()
-    {
-        return $this->hasMany(HistoryPembayaran::class, 'nim_mhs');
-    }
-
     public function irs()
     {
         return $this->hasMany(Irs::class, 'nim_mhs');
