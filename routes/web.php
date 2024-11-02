@@ -3,6 +3,7 @@
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\BagianAkademikController;
+use App\Http\Controllers\BuatIRSMahasiswaController;
 use App\Http\Controllers\DekanController;
 use App\Http\Controllers\MenentukanRuangKuliahController;
 use App\Http\Controllers\MenyetujuiRuangKuliah;
@@ -49,6 +50,7 @@ Route::post('register/action', [RegisterController::class, 'actionregister'])->n
 Route::get('mahasiswa/dashboard', [MahasiswaController::class, 'index'])->name('mahasiswa.dashboard')->middleware(['auth', 'validateRole:Mahasiswa']);
 Route::get('mahasiswa/profile', [ProfileMahasiswaController::class, 'index'])->name('mahasiswa.profile')->middleware(['auth', 'validateRole:Mahasiswa']);
 Route::get('mahasiswa/irs', [IRSMahasiswaController::class, 'index'])->name('mahasiswa.irs')->middleware(['auth', 'validateRole:Mahasiswa']);
+Route::get('mahasiswa/buat-irs', [BuatIRSMahasiswaController::class, 'index'])->name('mahasiswa.buatirs')->middleware(['auth', 'validateRole:Mahasiswa']);
 
 Route::get('dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/profile', [ProfileDosenController::class, 'index'])->name('dosen.profile')->middleware(['auth', 'validateRole:Dosen']);
