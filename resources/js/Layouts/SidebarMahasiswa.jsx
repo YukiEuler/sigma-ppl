@@ -35,7 +35,7 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
                     </li>
                     <li>
                         <a
-                            href="/dosen/dashboard"
+                            href="/mahasiswa/dashboard"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
@@ -61,7 +61,7 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
                     </li> */}
                     <li>
                         <a
-                            href="/mahasiswa/irs"
+                            href="/mahasiswa/buat-irs"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
