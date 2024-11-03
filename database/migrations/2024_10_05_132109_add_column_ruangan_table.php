@@ -13,7 +13,6 @@ return new class extends Migration
         Schema::table('ruangan', function (Blueprint $table) {
             $table->string('id_fakultas', 30);
             $table->string('id_prodi', 30)->nullable();
-            $table->boolean('disetujui')->default(false);
 
             $table->foreign('id_fakultas')->references('id_fakultas')->on('fakultas')->onDelete('cascade');
             $table->foreign('id_prodi')->references('id_prodi')->on('program_studi')->onDelete('cascade');
@@ -31,7 +30,6 @@ return new class extends Migration
 
             $table->dropColumn('id_fakultas');
             $table->dropColumn('id_prodi');
-            $table->dropColumn('disetujui');
         });
     }
 };
