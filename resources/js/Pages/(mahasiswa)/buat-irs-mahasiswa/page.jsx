@@ -8,6 +8,7 @@ import {
     ChevronLeft,
     CheckCircle2,
 } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { usePage } from "@inertiajs/inertia-react";
 import MahasiswaLayout from "../../../Layouts/MahasiswaLayout";
 
@@ -40,8 +41,8 @@ const BuatIRSMahasiswa = () => {
                     quota: 50,
                     filled: 25,
                     schedule: {
-                        day: "Senin",
-                        startTime: "08:00",
+                        day: "Selasa",
+                        startTime: "08:30",
                         endTime: "10:30",
                     },
                 },
@@ -52,7 +53,7 @@ const BuatIRSMahasiswa = () => {
                     filled: 30,
                     schedule: {
                         day: "Selasa",
-                        startTime: "08:00",
+                        startTime: "08:40",
                         endTime: "10:30",
                     },
                 },
@@ -73,7 +74,7 @@ const BuatIRSMahasiswa = () => {
                     filled: 35,
                     schedule: {
                         day: "Rabu",
-                        startTime: "07:00",
+                        startTime: "07:40",
                         endTime: "09:30",
                     },
                 },
@@ -259,6 +260,24 @@ const BuatIRSMahasiswa = () => {
         setIsSubmitted(!isSubmitted);
     };
 
+    // Helper function untuk menentukan slot waktu berdasarkan threshold 30 menit
+    const getTimeSlot = (timeStr) => {
+        const [hours, minutes] = timeStr.split(":").map(Number);
+        if (minutes <= 30) {
+            // Jika menit <= 30, gunakan jam saat ini
+            return `${hours.toString().padStart(2, "0")}:00`;
+        } else {
+            // Jika menit > 30, gunakan jam berikutnya
+            return `${(hours + 1).toString().padStart(2, "0")}:00`;
+        }
+    };
+
+    // Helper function untuk mengecek apakah suatu jadwal masuk ke dalam slot waktu
+    const isScheduleInTimeSlot = (scheduleTime, slotTime) => {
+        const appropriateSlot = getTimeSlot(scheduleTime);
+        return appropriateSlot === slotTime;
+    };
+
     const Schedule = () => (
         <div className="overflow-x-auto">
             <table className="w-full border-collapse">
@@ -274,54 +293,76 @@ const BuatIRSMahasiswa = () => {
                 </thead>
                 <tbody>
                     {timeSlots.map((time, index) => (
-                        <tr key={time} className="h-16">
-                            <td className="border p-2 text-center">{time}</td>
+                        <tr key={time}>
+                            <td className="border p-2 text-center align-top">
+                                {time}
+                            </td>
                             {days.map((day) => (
                                 <td
                                     key={`${day}-${time}`}
-                                    className="border p-2 relative"
+                                    className="border p-2 align-top"
                                 >
-                                    {selectedCourses.map((course) =>
-                                        course.classes.map((classInfo) => {
-                                            if (
-                                                classInfo.schedule.day ===
-                                                    day &&
-                                                classInfo.schedule.startTime ===
-                                                    time
-                                            ) {
-                                                return (
-                                                    <div
-                                                        key={`${course.id}-${classInfo.code}`}
-                                                        className="absolute bg-blue-100 p-2 rounded cursor-pointer hover:bg-blue-200"
-                                                        style={{
-                                                            top: "0",
-                                                            left: "0",
-                                                            right: "0",
-                                                            height: "100%",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleClassSelect(
-                                                                course,
-                                                                classInfo
-                                                            )
-                                                        }
-                                                    >
-                                                        <div className="text-sm font-semibold">
-                                                            {course.name}
+                                    <div className="flex flex-col gap-2">
+                                        {selectedCourses.map((course) =>
+                                            course.classes.map((classInfo) => {
+                                                if (
+                                                    classInfo.schedule.day ===
+                                                        day &&
+                                                    isScheduleInTimeSlot(
+                                                        classInfo.schedule
+                                                            .startTime,
+                                                        time
+                                                    )
+                                                ) {
+                                                    return (
+                                                        <div
+                                                            key={`${course.id}-${classInfo.code}`}
+                                                            className="bg-blue-100 p-2 rounded cursor-pointer hover:bg-blue-200 w-full"
+                                                            onClick={() =>
+                                                                handleClassSelect(
+                                                                    course,
+                                                                    classInfo
+                                                                )
+                                                            }
+                                                        >
+                                                            <div className="text-sm font-semibold">
+                                                                {course.name}
+                                                            </div>
+                                                            <div className="text-xs">
+                                                                {course.type}{" "}
+                                                                (SMT
+                                                                {
+                                                                    course.semester
+                                                                }
+                                                                ) (
+                                                                {course.credits}{" "}
+                                                                SKS)
+                                                                <br />
+                                                                Kelas:{" "}
+                                                                {classInfo.code}
+                                                                <br />
+                                                                <div className="flex justify-start items-center gap-1">
+                                                                    <Icon icon="lsicon:time-two-outline" />
+                                                                    {
+                                                                        classInfo
+                                                                            .schedule
+                                                                            .startTime
+                                                                    }{" "}
+                                                                    -{" "}
+                                                                    {
+                                                                        classInfo
+                                                                            .schedule
+                                                                            .endTime
+                                                                    }
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="text-xs">
-                                                            {course.type} -{" "}
-                                                            {course.credits} SKS
-                                                            <br />
-                                                            Kelas{" "}
-                                                            {classInfo.code}
-                                                        </div>
-                                                    </div>
-                                                );
-                                            }
-                                            return null;
-                                        })
-                                    )}
+                                                    );
+                                                }
+                                                return null;
+                                            })
+                                        )}
+                                    </div>
                                 </td>
                             ))}
                         </tr>
@@ -434,7 +475,7 @@ const BuatIRSMahasiswa = () => {
                                             </div>
 
                                             {/* Course options */}
-                                            <div className="max-h-60 overflow-y-auto">
+                                            <div className="max-h-64 overflow-y-auto">
                                                 {filteredCourses.length ===
                                                 0 ? (
                                                     <div className="p-4 text-gray-500 text-center">
@@ -452,12 +493,12 @@ const BuatIRSMahasiswa = () => {
                                                                 }
                                                                 className="w-full text-left p-2 hover:bg-gray-100"
                                                             >
-                                                                <div className="font-medium">
+                                                                <div className="font-medium text-[12px]">
                                                                     {
                                                                         course.name
                                                                     }
                                                                 </div>
-                                                                <div className="text-sm text-gray-500">
+                                                                <div className="text-sm text-gray-500 text-[10px]">
                                                                     {
                                                                         course.code
                                                                     }{" "}
@@ -484,13 +525,13 @@ const BuatIRSMahasiswa = () => {
                                     {selectedCourses.map((course) => (
                                         <div
                                             key={course.id}
-                                            className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-md shadow-sm"
+                                            className="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-md shadow-sm"
                                         >
                                             <div>
-                                                <div className="font-medium">
+                                                <div className="font-medium text-[12px]">
                                                     {course.name}
                                                 </div>
-                                                <div className="text-sm text-gray-500">
+                                                <div className="text-[10px] text-gray-500">
                                                     SMT {course.semester} -{" "}
                                                     {course.code} (
                                                     {course.credits} SKS)
@@ -528,7 +569,7 @@ const BuatIRSMahasiswa = () => {
 
                 {/* Sidebar */}
                 <div
-                    className={`fixed right-0 top-0 h-full bg-[#1EAADF] shadow-lg transition-all duration-300 ${
+                    className={`fixed right-0 top-14 h-full bg-[#1EAADF] shadow-lg transition-all duration-300 ${
                         isSidebarOpen ? "w-80" : "w-12"
                     }`}
                 >
@@ -536,53 +577,67 @@ const BuatIRSMahasiswa = () => {
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                         className="absolute -left-12 top-1/2 transform -translate-y-1/2 bg-[#1EAADF] p-2 rounded-l-lg shadow-lg"
                     >
-                        {isSidebarOpen ? <ChevronRight className="text-white"/> : <ChevronLeft className="text-white"/>}
-                        <div className="text-sm text-white">{totalCredits} SKS</div>
+                        {isSidebarOpen ? (
+                            <ChevronRight className="text-white" />
+                        ) : (
+                            <ChevronLeft className="text-white" />
+                        )}
+                        <div className="text-sm text-white">
+                            {totalCredits} SKS
+                        </div>
                     </button>
 
                     {isSidebarOpen && (
-                        <div className="p-4 bg-[#1EAADF]">
-                            <h2 className="text-lg font-medium mb-4 text-white">
+                        <div className="p-4 pt-3 bg-[#1EAADF]">
+                            <h2 className="text-lg font-medium mb-2 text-white">
                                 Registered Courses
                             </h2>
-                            <div className="space-y-2 mb-4 border-t">
-                                {registeredCourses.map((course) => (
-                                    <div
-                                        key={course.id}
-                                        className="p-2 bg-gray-50 rounded-md mt-4"
-                                    >
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <div className="font-medium">
-                                                    {course.name}
+                            <div
+                                className="space-y-2 mb-4 border-t overflow-y-auto"
+                                style={{ maxHeight: "500px" }}
+                            >
+                                <div className="mt-2">
+                                    {registeredCourses.map((course) => (
+                                        <div
+                                            key={course.id}
+                                            className="p-2 bg-gray-50 rounded-md mt-1"
+                                        >
+                                            <div className="flex justify-between items-start">
+                                                <div>
+                                                    <div className="font-medium text-[12px]">
+                                                        {course.name}
+                                                    </div>
+                                                    <div className="text-[10px] text-gray-500">
+                                                        {course.code} -{" "}
+                                                        {course.credits} SKS
+                                                        <br />
+                                                        Kelas{" "}
+                                                        {
+                                                            course.selectedClass
+                                                                .code
+                                                        }
+                                                    </div>
                                                 </div>
-                                                <div className="text-sm text-gray-500">
-                                                    {course.code} -{" "}
-                                                    {course.credits} SKS
-                                                    <br />
-                                                    Kelas{" "}
-                                                    {course.selectedClass.code}
-                                                </div>
+                                                <button
+                                                    onClick={() =>
+                                                        handleRemoveCourse(
+                                                            course.id
+                                                        )
+                                                    }
+                                                    className="text-red-500"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
                                             </div>
-                                            <button
-                                                onClick={() =>
-                                                    handleRemoveCourse(
-                                                        course.id
-                                                    )
-                                                }
-                                                className="text-red-500"
-                                            >
-                                                <Trash2 size={16} />
-                                            </button>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="relative min-h-screen">
                                 {/* Konten halaman lainnya */}
-                                <div className="border-t pt-4 fixed bottom-10 w-[37vh] bg-[#1EAADF]">
-                                    <div className="flex justify-between mb-4 text-white">
+                                <div className="border-t pt-2 fixed bottom-3 w-[37vh] bg-[#1EAADF]">
+                                    <div className="flex justify-between mb-3 text-white">
                                         <span>Total SKS:</span>
                                         <span className="font-medium">
                                             {totalCredits}

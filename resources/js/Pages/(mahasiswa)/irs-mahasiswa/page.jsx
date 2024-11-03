@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import MahasiswaLayout from "../../../Layouts/MahasiswaLayout";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { Icon } from "@iconify/react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -596,7 +597,17 @@ const IRSMahasiswa = () => {
                                                                 }
                                                                 className="w-40 mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                                                             >
-                                                                Cetak IRS
+                                                                <div className="flex items-center justify-center">
+                                                                    <Icon
+                                                                        icon="material-symbols-light:print"
+                                                                        height="24"
+                                                                        width="24"
+                                                                    />
+                                                                    <span className="ml-2">
+                                                                        Cetak
+                                                                        IRS
+                                                                    </span>
+                                                                </div>
                                                             </button>
                                                         </div>
                                                     </div>
