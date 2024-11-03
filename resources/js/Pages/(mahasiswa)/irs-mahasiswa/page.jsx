@@ -377,7 +377,7 @@ const IRSMahasiswa = () => {
                                                                 className="w-full table-layout-fixed"
                                                                 id="irs-mahasiswa"
                                                             >
-                                                                <thead>
+                                                                <thead className="text-[14px]">
                                                                     <tr className="bg-blue-500 text-white">
                                                                         <th
                                                                             scope="col"
