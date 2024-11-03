@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import DosenLayout from "../../../Layouts/DosenLayout";
-import { PieChart } from "@mui/x-charts/PieChart";
-import Chart from "react-apexcharts";
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 
 const DashboardDosen = () => {
     const { props } = usePage();
@@ -13,6 +12,224 @@ const DashboardDosen = () => {
         setDosen(dosenData);
     }, [dosenData]);
 
+    const allStudents = [
+        {
+            id: 1,
+            name: "Budi Santoso",
+            nim: "24010121130001",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2024",
+        },
+        {
+            id: 2,
+            name: "Ani Wijaya",
+            nim: "24010121130002",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2024",
+        },
+        {
+            id: 3,
+            name: "Dewi Putri",
+            nim: "24010121130003",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2024",
+        },
+        {
+            id: 4,
+            name: "Eko Prasetyo",
+            nim: "24010121130004",
+            status: "Aktif",
+            irsStatus: "Belum",
+            verificationStatus: "Belum",
+            angkatan: "2023",
+        },
+        {
+            id: 5,
+            name: "Fitri Handayani",
+            nim: "24010121130005",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2023",
+        },
+        {
+            id: 6,
+            name: "Guntur Prakoso",
+            nim: "24010121130006",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2023",
+        },
+        {
+            id: 7,
+            name: "Hani Sulistyo",
+            nim: "24010121130007",
+            status: "Aktif",
+            irsStatus: "Belum",
+            verificationStatus: "Belum",
+            angkatan: "2023",
+        },
+        {
+            id: 8,
+            name: "Indra Kusuma",
+            nim: "24010121130008",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Belum",
+            angkatan: "2022",
+        },
+        {
+            id: 9,
+            name: "Joko Widodo",
+            nim: "24010121130009",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2022",
+        },
+        {
+            id: 10,
+            name: "Kartini Sari",
+            nim: "24010121130010",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2022",
+        },
+        {
+            id: 11,
+            name: "Lisa Permata",
+            nim: "24010121130011",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2022",
+        },
+        {
+            id: 12,
+            name: "Mario Teguh",
+            nim: "24010121130012",
+            status: "Aktif",
+            irsStatus: "Belum",
+            verificationStatus: "Belum",
+            angkatan: "2021",
+        },
+        {
+            id: 13,
+            name: "Nina Septiani",
+            nim: "24010121130013",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2021",
+        },
+        {
+            id: 14,
+            name: "Oscar Putra",
+            nim: "24010121130014",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2021",
+        },
+        {
+            id: 15,
+            name: "Putri Ayu",
+            nim: "24010121130015",
+            status: "Aktif",
+            irsStatus: "Belum",
+            verificationStatus: "Belum",
+            angkatan: "2020",
+        },
+        {
+            id: 16,
+            name: "Qori Rahman",
+            nim: "24010121130016",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2020",
+        },
+        {
+            id: 17,
+            name: "Rudi Hartono",
+            nim: "24010121130017",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Belum",
+            angkatan: "2020",
+        },
+        {
+            id: 18,
+            name: "Siti Nurhaliza",
+            nim: "24010121130018",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2019",
+        },
+        {
+            id: 19,
+            name: "Tono Pradana",
+            nim: "24010121130019",
+            status: "Aktif",
+            irsStatus: "Belum",
+            verificationStatus: "Belum",
+            angkatan: "2019",
+        },
+        {
+            id: 20,
+            name: "Umi Kalsum",
+            nim: "24010121130020",
+            status: "Aktif",
+            irsStatus: "Sudah",
+            verificationStatus: "Sudah",
+            angkatan: "2019",
+        },
+    ];
+
+    // State for selected year filter
+    const [selectedYear, setSelectedYear] = useState("all");
+
+    // Get unique years for filter dropdown
+    const years = ["all", ...new Set(allStudents.map((s) => s.angkatan))]
+        .sort()
+        .reverse();
+
+    // Filter students based on selected year
+    const students =
+        selectedYear === "all"
+            ? allStudents
+            : allStudents.filter((s) => s.angkatan === selectedYear);
+
+    // Calculate statistics
+    const totalStudents = students.length;
+    const filledIRS = students.filter((s) => s.irsStatus === "Sudah").length;
+    const notFilledIRS = students.filter((s) => s.irsStatus === "Belum").length;
+    const verifiedIRS = students.filter(
+        (s) => s.verificationStatus === "Sudah"
+    ).length;
+    const notVerifiedIRS = students.filter(
+        (s) => s.verificationStatus === "Belum"
+    ).length;
+
+    // Data for pie chart
+    const pieData = [
+        { name: "Sudah Mengisi IRS", value: filledIRS },
+        { name: "Belum Mengisi IRS", value: notFilledIRS },
+        { name: "Sudah Verifikasi IRS", value: verifiedIRS },
+        { name: "Belum Verifikasi IRS", value: notVerifiedIRS },
+    ];
+
+    const COLORS = ["#03045e", "#0077b6", "#00b4d8", "#90e0ef"];
+
     return (
         <DosenLayout dosen={dosen}>
             <main className="flex-1 max-h-full">
@@ -21,15 +238,40 @@ const DashboardDosen = () => {
                         Dashboard
                     </h1>
                 </div>
-                <div className="grid grid-cols-1 gap-5 mt-6 lg:grid-cols-3">
+                <div className="flex items-center space-x-4 mt-4">
+                    <label
+                        htmlFor="yearFilter"
+                        className="text-gray-700 font-medium"
+                    >
+                        Angkatan:
+                    </label>
+                    <select
+                        id="yearFilter"
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(e.target.value)}
+                        className="p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    >
+                        {years.map((year) => (
+                            <option key={year} value={year}>
+                                {year === "all"
+                                    ? "Semua Angkatan"
+                                    : `Angkatan ${year}`}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="grid grid-cols-1 gap-3 mt-6 lg:grid-cols-3">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
-                                <span className="text-gray-400">
-                                    Mahasiswa Aktif
+                                <span className="text-gray-400 text-md">
+                                    Mahasiswa Aktif {""}
+                                    {selectedYear !== "all"
+                                        ? `(Angkatan ${selectedYear})`
+                                        : "(Semua Angkatan)"}
                                 </span>
                                 <span className="text-lg font-semibold">
-                                    50
+                                    {totalStudents}
                                 </span>
                             </div>
                             <div className="p-8"></div>
@@ -38,11 +280,14 @@ const DashboardDosen = () => {
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
-                                <span className="text-gray-400">
-                                    Mahasiswa Sudah Mengisi IRS
+                                <span className="text-gray-400 text-md">
+                                    Sudah Mengisi IRS {""}
+                                    {selectedYear !== "all"
+                                        ? `(Angkatan ${selectedYear})`
+                                        : "(Semua Angkatan)"}
                                 </span>
                                 <span className="text-lg font-semibold">
-                                    40
+                                    {filledIRS}
                                 </span>
                             </div>
                             <div className="p-8"></div>
@@ -51,21 +296,33 @@ const DashboardDosen = () => {
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
-                                <span className="text-gray-400">
-                                    Mahasiswa Belum Mengisi IRS
+                                <span className="text-gray-400 text-md">
+                                    Belum Mengisi IRS {""}
+                                    {selectedYear !== "all"
+                                        ? `(Angkatan ${selectedYear})`
+                                        : "(Semua Angkatan)"}
                                 </span>
-                                <span className="text-lg font-semibold">10</span>
+                                <span className="text-lg font-semibold">
+                                    {notFilledIRS}
+                                </span>
                             </div>
                             <div className="p-8"></div>
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 gap-5 mt-6 sm:grid-cols-2 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 mt-6 sm:grid-cols-2 lg:grid-cols-2">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
-                                <span className="text-gray-400">IRS Sudah Diverifikasi</span>
-                                <span className="text-lg font-semibold">35</span>
+                                <span className="text-gray-400 text-md">
+                                    IRS Sudah Diverifikasi {""}
+                                    {selectedYear !== "all"
+                                        ? `(Angkatan ${selectedYear})`
+                                        : "(Semua Angkatan)"}
+                                </span>
+                                <span className="text-lg font-semibold">
+                                    {verifiedIRS}
+                                </span>
                             </div>
                             <div className="p-8"></div>
                         </div>
@@ -73,47 +330,64 @@ const DashboardDosen = () => {
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
-                                <span className="text-gray-400">
-                                    IRS Belum Diverifikasi
+                                <span className="text-gray-400 text-md">
+                                    IRS Belum Diverifikasi {""}
+                                    {selectedYear !== "all"
+                                        ? `(Angkatan ${selectedYear})`
+                                        : "(Semua Angkatan)"}
                                 </span>
-                                <span className="text-lg font-semibold">5</span>
+                                <span className="text-lg font-semibold">
+                                    {notVerifiedIRS}
+                                </span>
                             </div>
                             <div className="p-8"></div>
                         </div>
                     </div>
                 </div>
+
                 <div className="grid grid-cols-1 gap-5 mt-6 lg:grid-cols-1">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
-                        <div className="flex items-center justify-center p-2 border rounded-lg shadow-lg bg-white">
-                            <div className="flex flex-col space-y-2 items-center">
-                                <h2 className="text-l font-semibold whitespace-nowrap text-center mt-3">
-                                    Status Mahasiswa
+                        <div className="p-2 border rounded-lg shadow-lg bg-white">
+                            <div className="mt-2 mb-2">
+                                <h2 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                                    Status Mahasiswa{" "}
+                                    {selectedYear !== "all"
+                                        ? `(Angkatan ${selectedYear})`
+                                        : "(Semua Angkatan)"}
                                 </h2>
-                                <div className="py-6 grid place-items-center px-2">
-                                    <Chart
-                                        type="pie"
-                                        width={350}
-                                        height={350}
-                                        series={[40, 10, 35, 5]}
-                                        options={{
-                                            labels: [
-                                                "Sudah Mengisi IRS",
-                                                "Belum Mengisi IRS",
-                                                "Sudah Verifikasi IRS",
-                                                "Belum Verifikasi IRS",
-                                            ],
-                                            colors: [
-                                                "#03045e",
-                                                "#0077b6",
-                                                "#00b4d8",
-                                                "#90e0ef",
-                                            ],
-                                            legend: {
-                                                show: true,
-                                                position: "right",
-                                            },
-                                        }}
-                                    ></Chart>
+                                <div className="h-full">
+                                    <ResponsiveContainer
+                                        width="100%"
+                                        height={250}
+                                    >
+                                        <PieChart>
+                                            <Pie
+                                                data={pieData}
+                                                cx="50%"
+                                                cy="50%"
+                                                labelLine={false}
+                                                outerRadius={80}
+                                                fill="#8884d8"
+                                                dataKey="value"
+                                                label={({ name, value }) =>
+                                                    `${name}: ${value}`
+                                                }
+                                            >
+                                                {pieData.map((entry, index) => (
+                                                    <Cell
+                                                        key={`cell-${index}`}
+                                                        fill={
+                                                            COLORS[
+                                                                index %
+                                                                    COLORS.length
+                                                            ]
+                                                        }
+                                                    />
+                                                ))}
+                                            </Pie>
+                                            <Legend />
+                                        </PieChart>
+                                    </ResponsiveContainer>
                                 </div>
                             </div>
                         </div>
