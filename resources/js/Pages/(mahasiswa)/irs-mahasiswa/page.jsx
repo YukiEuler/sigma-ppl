@@ -405,7 +405,7 @@ const IRSMahasiswa = () => {
                                                                             scope="col"
                                                                             className="px-6 py-3 border"
                                                                             style={{
-                                                                                width: "50px",
+                                                                                width: "250px",
                                                                                 textAlign:
                                                                                     "center",
                                                                             }}
@@ -471,7 +471,7 @@ const IRSMahasiswa = () => {
                                                                         </th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
+                                                                <tbody className="text-[14px]">
                                                                     {semesterInfo.courses.map(
                                                                         (
                                                                             course
