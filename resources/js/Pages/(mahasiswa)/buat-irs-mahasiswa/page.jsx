@@ -341,6 +341,9 @@ const BuatIRSMahasiswa = () => {
                                                                 Kelas:{" "}
                                                                 {classInfo.code}
                                                                 <br />
+                                                                Kuota:{" "}
+                                                                30/{classInfo.quota}{" "}
+                                                                <br />
                                                                 <div className="flex justify-start items-center gap-1">
                                                                     <Icon icon="lsicon:time-two-outline" />
                                                                     {
