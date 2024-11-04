@@ -217,7 +217,7 @@ const DashboardDosen = () => {
         (s) => s.verificationStatus === "Sudah"
     ).length;
     const notVerifiedIRS = students.filter(
-        (s) => s.verificationStatus === "Belum"
+        (s) => s.verificationStatus === "Belum" && s.irsStatus === "Sudah"
     ).length;
 
     // Data for pie chart
