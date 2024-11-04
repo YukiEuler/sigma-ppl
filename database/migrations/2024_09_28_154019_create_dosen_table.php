@@ -13,6 +13,8 @@ class CreateDosenTable extends Migration
             $table->string('nama', 100);
             $table->string('alamat', 200);
             $table->string('no_telp', 30);
+            $table->boolean('kaprodi')->default(false);
+            $table->boolean('dekan')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->string('id_prodi', 30);
 

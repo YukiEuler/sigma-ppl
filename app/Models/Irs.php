@@ -30,4 +30,9 @@ class Irs extends Model
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
     }
+
+    public function matakuliah()
+    {
+        return $this->belongsTo(Matakuliah::class,  'kode_mk', 'kode_mk');
+    }
 }
