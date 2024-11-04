@@ -9,7 +9,7 @@ class Dosen extends Model
     protected $primaryKey = 'nip';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['nip', 'nama', 'alamat', 'no_telp', 'id_prodi', 'user_id'];
+    protected $fillable = ['nip', 'nama', 'alamat', 'no_telp', 'dekan', 'kaprodi', 'id_prodi', 'user_id'];
 
     public function programStudi()
     {

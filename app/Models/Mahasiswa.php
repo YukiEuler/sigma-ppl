@@ -12,6 +12,10 @@ class Mahasiswa extends Model
     // Jika nama tabel berbeda dari default (plural lowercase dari nama model)
     protected $table = 'mahasiswa';
 
+    protected $primaryKey = 'nim';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     // Kolom yang boleh diisi
     protected $fillable = [
         'user_id',
