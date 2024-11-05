@@ -46,35 +46,9 @@ const SidebarDosen = ({ dosen }) => {
                             <span className="ms-3">Home</span>
                         </a>
                     </li>
-                    {/* <li>
-                        <a
-                            href="/dosen/profile"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
-                        >
-                            <Icon
-                                icon="iconamoon:profile-fill"
-                                width="24"
-                                height="24"
-                            />
-                            <span class="ms-3">Profile</span>
-                        </a>
-                    </li> */}
                     <li>
                         <a
                             href="/dosen/perwalian"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
-                        >
-                            <Icon
-                                icon="fluent:people-team-32-filled"
-                                width="24"
-                                height="24"
-                            />
-                            <span className="ms-3">Perwalian</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/dosen/persetujuan-irs"
                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
@@ -82,39 +56,9 @@ const SidebarDosen = ({ dosen }) => {
                                 width="24"
                                 height="24"
                             />
-                            <span className="ms-3">Persetujuan IRS</span>
+                            <span className="ms-3">Perwalian</span>
                         </a>
                     </li>
-                    {/* <li>
-                        {dosen.dekan === 1 && (
-                            <a
-                                href="/dekan/dashboard"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <Icon
-                                    icon="vaadin:academy-cap"
-                                    width="24"
-                                    height="24"
-                                />
-                                <span className="ms-3">Dekan Page</span>
-                            </a>
-                        )}
-                    </li> */}
-                    {/* <li>
-                        {dosen.kaprodi === 1 && (
-                            <a
-                                href="/kaprodi/dashboard"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <Icon
-                                    icon="vaadin:academy-cap"
-                                    width="24"
-                                    height="24"
-                                />
-                                <span className="ms-3">Kaprodi Page</span>
-                            </a>
-                        )}
-                    </li> */}
                     <li>
                         <a
                             href="/actionlogout"

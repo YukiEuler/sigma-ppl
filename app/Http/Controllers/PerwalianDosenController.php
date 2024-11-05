@@ -28,7 +28,14 @@ class PerwalianDosenController extends Controller
         $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
         $dosen->nama_fakultas = $fakultas->nama_fakultas;
 
-        $mahasiswa = Mahasiswa::where('nip_dosen_wali', $dosen->nip)->get();
+        $mahasiswa = Mahasiswa::where('nip_dosen_wali', $dosen->nip)
+        ->get()
+        ->map(function ($mhs) {
+            // Mengambil data program studi untuk setiap mahasiswa
+            $prodiMhs = ProgramStudi::where('id_prodi', $mhs->id_prodi)->first();
+            $mhs->nama_prodi = $prodiMhs ? $prodiMhs->nama_prodi : null;
+            return $mhs;
+        });
         
         return Inertia::render('(dosen)/perwalian-dosen/page', [
             'dosen' => $dosen,
@@ -57,11 +64,17 @@ class PerwalianDosenController extends Controller
         $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
         $dosen->nama_fakultas = $fakultas->nama_fakultas;
 
+        // Mengambil data prodi mahasiswa
+        $prodiMahasiswa = ProgramStudi::where('id_prodi', $mahasiswa->id_prodi)->first();
+        $mahasiswa->nama_prodi = $prodiMahasiswa->nama_prodi;
+    
+        // Mengambil data fakultas mahasiswa
+        $fakultasMahasiswa = Fakultas::where('id_fakultas', $prodiMahasiswa->id_fakultas)->first();
+        $mahasiswa->nama_fakultas = $fakultasMahasiswa->nama_fakultas;
+
         return Inertia::render('(dosen)/perwalian-dosen/detail', [
             'dosen' => $dosen,
             'mahasiswa' => $mahasiswa
         ]);
     }
-
-    
 }

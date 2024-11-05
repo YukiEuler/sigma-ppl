@@ -48,12 +48,9 @@ Route::get('register', [RegisterController::class, 'register'])->name('register'
 Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
 
 Route::get('mahasiswa/dashboard', [MahasiswaController::class, 'index'])->name('mahasiswa.dashboard')->middleware(['auth', 'validateRole:Mahasiswa']);
-Route::get('mahasiswa/profile', [ProfileMahasiswaController::class, 'index'])->name('mahasiswa.profile')->middleware(['auth', 'validateRole:Mahasiswa']);
 Route::get('mahasiswa/irs', [IRSMahasiswaController::class, 'index'])->name('mahasiswa.irs')->middleware(['auth', 'validateRole:Mahasiswa']);
 Route::get('mahasiswa/buat-irs', [BuatIRSMahasiswaController::class, 'index'])->name('mahasiswa.buatirs')->middleware(['auth', 'validateRole:Mahasiswa']);
 
 Route::get('dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard')->middleware(['auth', 'validateRole:Dosen']);
-Route::get('dosen/profile', [ProfileDosenController::class, 'index'])->name('dosen.profile')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/perwalian', [PerwalianDosenController::class, 'index'])->name('dosen.perwalian')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/perwalian/detail/{id}', [PerwalianDosenController::class, 'detail'])->name('dosen.detailMhs')->middleware(['auth', 'validateRole:Dosen']);
-Route::get('dosen/persetujuan-irs', [PersetujuanIRSDosenController::class, 'index'])->name('dosen.persetujuanIRS')->middleware(['auth', 'validateRole:Dosen']);
