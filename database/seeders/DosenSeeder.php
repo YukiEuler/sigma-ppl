@@ -275,6 +275,7 @@ class DosenSeeder extends Seeder
             'nama' => 'Dr. Aris Sugiharto, S.Si., M.Kom.',
             'alamat' => $faker->address,
             'no_telp' => $faker->phoneNumber,
+            'kaprodi' => true,
             'id_prodi' => 62,
             'user_id' => 29
         ]);

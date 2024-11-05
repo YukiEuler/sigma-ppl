@@ -97,6 +97,33 @@ const PersetujuanIRSDosen = () => {
                                                 </select>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td className="text-sm font-medium text-gray-900">
+                                                Status IRS
+                                            </td>
+                                            <td>
+                                                <select
+                                                    id="prodi"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                >
+                                                    <option selected>
+                                                        Select an option
+                                                    </option>
+                                                    <option value="TI">
+                                                        Sudah Mengisi
+                                                    </option>
+                                                    <option value="SI">
+                                                        Belum Mengisi
+                                                    </option>
+                                                    <option value="MI">
+                                                        Belum Disetujui
+                                                    </option>
+                                                    <option value="KA">
+                                                        Sudah Disetujui
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
                                     </table>
                                     <div className="mt-4 flex space-x-2">
                                         <button
@@ -191,7 +218,7 @@ const PersetujuanIRSDosen = () => {
                                                     scope="col"
                                                     className="px-6 py-3"
                                                     style={{
-                                                        width: "30px",
+                                                        width: "5%",
                                                         textAlign: "center",
                                                     }}
                                                 >
@@ -204,107 +231,117 @@ const PersetujuanIRSDosen = () => {
                                                                 handleSelectAllChange
                                                             }
                                                         />
-                                                        <span className="ml-2">
+                                                        <span className="ml-2 text-[10px]">
                                                             Semua
                                                         </span>
                                                     </label>
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "30px",
+                                                        width: "3%",
                                                         textAlign: "center",
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     No
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "250px",
+                                                        width: "15%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     Nama
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "50px",
+                                                        width: "10%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     NIM
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "150px",
+                                                        width: "15%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     Prodi
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "30px",
+                                                        width: "10%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     Angkatan
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "30px",
+                                                        width: "5%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     IP Lalu
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "30px",
+                                                        width: "3%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     SKS Diambil
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "50px",
+                                                        width: "10%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     Status Mahasiswa
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "50px",
+                                                        width: "10%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     Status IRS
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-4 py-2"
                                                     style={{
-                                                        width: "30px",
+                                                        width: "10%",
                                                         textAlign: "center",
+                                                        fontSize: "12px"
                                                     }}
                                                 >
                                                     Detail
@@ -335,37 +372,39 @@ const PersetujuanIRSDosen = () => {
                                                                 />
                                                             </div>
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {index + 1}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {item.nama}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {item.nim}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {item.nama_prodi}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {item.angkatan}
                                                         </td>
-                                                        <td className="px-6 py-3">
-                                                            {item.ipk}
+                                                        <td className="px-4 py-2 text-[14px]">
+                                                            {item.ipk.toFixed(
+                                                                2
+                                                            )}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {item.sks_kumulatif}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             {item.status}
                                                         </td>
-                                                        <td className="px-6 py-3">
+                                                        <td className="px-4 py-2 text-[14px]">
                                                             Status
                                                         </td>
-                                                        <td className="flex items-center mr-1 ml-3 py-3">
+                                                        <td className="flex items-center justify-center py-3">
                                                             <a
                                                                 href={`/dosen/perwalian/detail/${item.nim}`}
-                                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                                                                className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-[12px]"
                                                             >
                                                                 Detail
                                                             </a>
