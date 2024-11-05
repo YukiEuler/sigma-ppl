@@ -46,19 +46,6 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
                             <span class="ms-3">Home</span>
                         </a>
                     </li>
-                    {/* <li>
-                        <a
-                            href="/mahasiswa/profile"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
-                        >
-                            <Icon
-                                icon="iconamoon:profile-fill"
-                                width="24"
-                                height="24"
-                            />
-                            <span class="ms-3">Profile</span>
-                        </a>
-                    </li> */}
                     <li>
                         <a
                             href="/mahasiswa/buat-irs"
