@@ -11,6 +11,8 @@ const PersetujuanIRSDosen = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [checkedItems, setCheckedItems] = useState(new Array(10).fill(false));
 
+    const jumlahMahasiswa = props.jumlahMahasiswa;
+
     const handleSelectAllChange = () => {
         const newSelectAll = !selectAll;
         setSelectAll(newSelectAll);
@@ -152,7 +154,7 @@ const PersetujuanIRSDosen = () => {
                                         type="button"
                                         className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
                                     >
-                                        Batalkan Persutujan IRS
+                                        Batalkan Persetujan IRS
                                     </button>
                                     <button
                                         type="button"
@@ -198,7 +200,7 @@ const PersetujuanIRSDosen = () => {
                                 </div>
                                 <div className="mt-2">
                                     <span className="text-lg font-medium text-gray-900">
-                                        Total: 10
+                                        Total: {jumlahMahasiswa}
                                     </span>
                                 </div>
                                 <div className="relative overflow-x-auto mt-1 rounded-lg overflow-auto h-[500px] scrollbar-hide">

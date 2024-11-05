@@ -13,6 +13,16 @@ const DetailIRS = () => {
     const mahasiswaData = props.mahasiswa;
     const [mahasiswa, setMahasiswa] = useState(mahasiswaData);
     const [openSemesters, setOpenSemesters] = useState({});
+    const [isApproved, setIsApproved] = useState(false);
+
+    const handleButtonClick = () => {
+        setIsApproved(!isApproved);
+    };
+
+    useEffect(() => {
+        setDosen(dosenData);
+        setMahasiswa(mahasiswaData);
+    }, [dosenData, mahasiswaData]);
 
     const toggleSemester = (semester) => {
         setOpenSemesters((prev) => ({
@@ -318,11 +328,6 @@ const DetailIRS = () => {
         },
     };
 
-    useEffect(() => {
-        setDosen(dosenData);
-        setMahasiswa(mahasiswaData);
-    }, [dosenData, mahasiswaData]);
-
     return (
         <DosenLayout dosen={dosen}>
             {/* <h1>Detail</h1>
@@ -331,7 +336,7 @@ const DetailIRS = () => {
             <main className="flex-1 max-h-full">
                 <div className="flex flex-col items-start justify-between pb-6 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
                     <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
-                        Isian Rancangan Studi (IRS)
+                        Perwalian
                     </h1>
                 </div>
                 <div className="grid grid-cols-1 mt-6">
@@ -350,7 +355,7 @@ const DetailIRS = () => {
                                                 Nama
                                             </span>
                                             <span className="ml-2 font-medium">
-                                                : Dzu Sunan Muhammad
+                                                : {mahasiswa.nama}
                                             </span>
                                         </div>
                                         <div className="flex">
@@ -358,7 +363,7 @@ const DetailIRS = () => {
                                                 NIM
                                             </span>
                                             <span className="ml-2 font-medium">
-                                                : 24060122120034
+                                                : {mahasiswa.nim}
                                             </span>
                                         </div>
                                     </div>
@@ -392,7 +397,8 @@ const DetailIRS = () => {
                                                 IPk/SKSk
                                             </span>
                                             <span className="ml-2 font-medium">
-                                                : 3.78/86
+                                                : {mahasiswa.ipk}/
+                                                {mahasiswa.sks_kumulatif}
                                             </span>
                                         </div>
                                     </div>
@@ -697,24 +703,53 @@ const DetailIRS = () => {
                                                                     )}
                                                                 </tbody>
                                                             </table>
-                                                            <button
-                                                                onClick={
-                                                                    handleDownloadPDF
-                                                                }
-                                                                className="w-40 mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                                                            >
-                                                                <div className="flex items-center justify-center">
-                                                                    <Icon
-                                                                        icon="material-symbols-light:print"
-                                                                        height="24"
-                                                                        width="24"
-                                                                    />
-                                                                    <span className="ml-2">
-                                                                        Cetak
-                                                                        IRS
-                                                                    </span>
-                                                                </div>
-                                                            </button>
+                                                            <div>
+                                                                <button
+                                                                    onClick={
+                                                                        handleDownloadPDF
+                                                                    }
+                                                                    className="w-40 mt-4 mr-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                                                >
+                                                                    <div className="flex items-center justify-center">
+                                                                        <Icon
+                                                                            icon="material-symbols-light:print"
+                                                                            height="24"
+                                                                            width="24"
+                                                                        />
+                                                                        <span className="ml-2">
+                                                                            Cetak
+                                                                            IRS
+                                                                        </span>
+                                                                    </div>
+                                                                </button>
+                                                                <button
+                                                                    className={`w-32 mt-4 px-4 py-2 text-white rounded transition duration-300 ${
+                                                                        isApproved
+                                                                            ? "bg-red-500 hover:bg-red-600"
+                                                                            : "bg-green-500 hover:bg-green-600"
+                                                                    }`}
+                                                                    onClick={
+                                                                        handleButtonClick
+                                                                    }
+                                                                >
+                                                                    <div className="flex items-center justify-center">
+                                                                        <Icon
+                                                                            icon={
+                                                                                isApproved
+                                                                                    ? "akar-icons:cross"
+                                                                                    : "codicon:check-all"
+                                                                            }
+                                                                            height="24"
+                                                                            width="24"
+                                                                        />
+                                                                        <span className="ml-2">
+                                                                            {isApproved
+                                                                                ? "Batalkan"
+                                                                                : "Setujui"}
+                                                                        </span>
+                                                                    </div>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )}
@@ -722,6 +757,22 @@ const DetailIRS = () => {
                                         )
                                     )}
                                 </div>
+                                <button
+                                    onClick={() =>
+                                        (window.location.href =
+                                            "/dosen/perwalian")
+                                    }
+                                    className="w-32 mt-4 mr-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                >
+                                    <div className="flex items-center justify-center">
+                                        <Icon
+                                            icon="icon-park-solid:back"
+                                            height="20"
+                                            width="20"
+                                        />
+                                        <span className="ml-2">Kembali</span>
+                                    </div>
+                                </button>
                             </div>
                         </div>
                     </div>
