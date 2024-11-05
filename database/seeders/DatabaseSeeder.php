@@ -21,5 +21,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            UserSeeder::class,
+            FakultasSeeder::class,
+            ProdiSeeder::class,
+            DosenSeeder::class,
+            MahasiswaSeeder::class,
+            RuanganSeeder::class,
+            MataKuliahSeeder::class,
+            KelasSeeder::class,
+            JadwalKuliahSeeder::class,
+            IrsSeeder::class,
+            KalenderAkademikSeeder::class,
+        ]);
     }
 }

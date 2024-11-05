@@ -16,6 +16,13 @@ const BuatIRSMahasiswa = () => {
     const { props } = usePage();
     const mahasiswaData = props.mahasiswa;
     const [mahasiswa, setMahasiswa] = useState(mahasiswaData);
+    const jadwalData = props.jadwal;
+    const [jadwal, setJadwal] = useState(jadwalData);
+
+    useEffect(() => {
+        setJadwal(jadwalData);
+    }, [jadwalData]);
+
     const studentData = {
         name: "Dzu Sunan Muhammad",
         nim: "24060122120034",
@@ -25,167 +32,6 @@ const BuatIRSMahasiswa = () => {
         ips: 4.0,
         maxCredits: 24,
     };
-
-    const coursesData = [
-        {
-            id: 1,
-            name: "Sistem Operasi",
-            code: "PAIK0305",
-            credits: 3,
-            semester: 3,
-            type: "Wajib",
-            classes: [
-                {
-                    code: "A",
-                    room: "K301",
-                    quota: 50,
-                    filled: 25,
-                    schedule: {
-                        day: "Selasa",
-                        startTime: "08:30",
-                        endTime: "10:30",
-                    },
-                },
-                {
-                    code: "B",
-                    room: "K302",
-                    quota: 50,
-                    filled: 30,
-                    schedule: {
-                        day: "Selasa",
-                        startTime: "08:40",
-                        endTime: "10:30",
-                    },
-                },
-            ],
-        },
-        {
-            id: 2,
-            name: "Algoritma dan Pemrograman",
-            code: "PAIK0201",
-            credits: 4,
-            semester: 2,
-            type: "Wajib",
-            classes: [
-                {
-                    code: "A",
-                    room: "K201",
-                    quota: 40,
-                    filled: 35,
-                    schedule: {
-                        day: "Rabu",
-                        startTime: "07:40",
-                        endTime: "09:30",
-                    },
-                },
-            ],
-        },
-        {
-            id: 3,
-            name: "Jaringan Komputer",
-            code: "PAIK0401",
-            credits: 3,
-            semester: 4,
-            type: "Wajib",
-            classes: [
-                {
-                    code: "A",
-                    room: "K401",
-                    quota: 45,
-                    filled: 40,
-                    schedule: {
-                        day: "Kamis",
-                        startTime: "10:00",
-                        endTime: "12:30",
-                    },
-                },
-            ],
-        },
-        {
-            id: 4,
-            name: "Basis Data",
-            code: "PAIK0302",
-            credits: 3,
-            semester: 3,
-            type: "Wajib",
-            classes: [
-                {
-                    code: "A",
-                    room: "K303",
-                    quota: 50,
-                    filled: 45,
-                    schedule: {
-                        day: "Jumat",
-                        startTime: "08:00",
-                        endTime: "10:30",
-                    },
-                },
-            ],
-        },
-        {
-            id: 5,
-            name: "Pemrograman Web",
-            code: "PAIK0501",
-            credits: 3,
-            semester: 5,
-            type: "Pilihan",
-            classes: [
-                {
-                    code: "A",
-                    room: "K501",
-                    quota: 40,
-                    filled: 35,
-                    schedule: {
-                        day: "Senin",
-                        startTime: "13:00",
-                        endTime: "15:30",
-                    },
-                },
-            ],
-        },
-        {
-            id: 6,
-            name: "Kecerdasan Buatan",
-            code: "PAIK0601",
-            credits: 3,
-            semester: 6,
-            type: "Pilihan",
-            classes: [
-                {
-                    code: "A",
-                    room: "K601",
-                    quota: 30,
-                    filled: 25,
-                    schedule: {
-                        day: "Selasa",
-                        startTime: "10:00",
-                        endTime: "12:30",
-                    },
-                },
-            ],
-        },
-        {
-            id: 7,
-            name: "Rekayasa Perangkat Lunak",
-            code: "PAIK0402",
-            credits: 4,
-            semester: 4,
-            type: "Wajib",
-            classes: [
-                {
-                    code: "A",
-                    room: "K402",
-                    quota: 50,
-                    filled: 45,
-                    schedule: {
-                        day: "Rabu",
-                        startTime: "13:00",
-                        endTime: "15:30",
-                    },
-                },
-            ],
-        },
-    ];
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -204,21 +50,21 @@ const BuatIRSMahasiswa = () => {
     const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
 
     // Filter courses based on search
-    const filteredCourses = coursesData.filter(
+    const filteredCourses = jadwalData.filter(
         (course) =>
-            course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            course.code.toLowerCase().includes(searchQuery.toLowerCase())
+            course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     // Calculate total credits
     const totalCredits = registeredCourses.reduce(
-        (sum, course) => sum + course.credits,
+        (sum, course) => sum + course.sks,
         0
     );
 
     // Handle course selection from dropdown
     const handleCourseSelect = (course) => {
-        if (!selectedCourses.some((selected) => selected.id === course.id)) {
+        if (!selectedCourses.some((selected) => selected.kode_mk === course.kode_mk)) {
             setSelectedCourses([...selectedCourses, course]);
         }
         setIsDropdownOpen(false);
@@ -228,14 +74,17 @@ const BuatIRSMahasiswa = () => {
     // Handle course visibility toggle
     const handleToggleCourse = (courseId) => {
         setSelectedCourses(
-            selectedCourses.filter((course) => course.id !== courseId)
+            selectedCourses.filter((course) => course.kode_mk !== courseId)
         );
     };
 
     // Handle class selection
     const handleClassSelect = (course, classInfo) => {
+        console.log("masuk ");
+        console.log(course);
+        console.log(classInfo);
         const existingCourse = registeredCourses.find(
-            (c) => c.id === course.id
+            (c) => c.kode_mk === course.kode_mk
         );
         if (!existingCourse) {
             setRegisteredCourses([
@@ -304,13 +153,12 @@ const BuatIRSMahasiswa = () => {
                                 >
                                     <div className="flex flex-col gap-2">
                                         {selectedCourses.map((course) =>
-                                            course.classes.map((classInfo) => {
+                                            course.jadwal_kuliah.map((classInfo) => {
                                                 if (
-                                                    classInfo.schedule.day ===
+                                                    classInfo.hari ===
                                                         day &&
                                                     isScheduleInTimeSlot(
-                                                        classInfo.schedule
-                                                            .startTime,
+                                                        classInfo.jam_mulai,
                                                         time
                                                     )
                                                 ) {
@@ -326,7 +174,7 @@ const BuatIRSMahasiswa = () => {
                                                             }
                                                         >
                                                             <div className="text-sm font-semibold">
-                                                                {course.name}
+                                                                {course.nama}
                                                             </div>
                                                             <div className="text-xs">
                                                                 {course.type}{" "}
@@ -335,27 +183,25 @@ const BuatIRSMahasiswa = () => {
                                                                     course.semester
                                                                 }
                                                                 ) (
-                                                                {course.credits}{" "}
+                                                                {course.sks}{" "}
                                                                 SKS)
                                                                 <br />
                                                                 Kelas:{" "}
-                                                                {classInfo.code}
+                                                                {classInfo.kelas}
                                                                 <br />
                                                                 Kuota:{" "}
-                                                                30/{classInfo.quota}{" "}
+                                                                {classInfo.kuota}{" "}
                                                                 <br />
                                                                 <div className="flex justify-start items-center gap-1">
                                                                     <Icon icon="lsicon:time-two-outline" />
                                                                     {
                                                                         classInfo
-                                                                            .schedule
-                                                                            .startTime
+                                                                            .jam_mulai
                                                                     }{" "}
                                                                     -{" "}
                                                                     {
                                                                         classInfo
-                                                                            .schedule
-                                                                            .endTime
+                                                                            .jam_selesai
                                                                     }
                                                                 </div>
                                                             </div>
@@ -488,7 +334,7 @@ const BuatIRSMahasiswa = () => {
                                                     filteredCourses.map(
                                                         (course) => (
                                                             <button
-                                                                key={course.id}
+                                                                key={course.kode_mk}
                                                                 onClick={() =>
                                                                     handleCourseSelect(
                                                                         course
@@ -498,16 +344,16 @@ const BuatIRSMahasiswa = () => {
                                                             >
                                                                 <div className="font-medium text-[12px]">
                                                                     {
-                                                                        course.name
+                                                                        course.nama
                                                                     }
                                                                 </div>
                                                                 <div className="text-sm text-gray-500 text-[10px]">
                                                                     {
-                                                                        course.code
+                                                                        course.kode_mk
                                                                     }{" "}
                                                                     -{" "}
                                                                     {
-                                                                        course.credits
+                                                                        course.sks
                                                                     }{" "}
                                                                     SKS
                                                                 </div>
@@ -532,18 +378,18 @@ const BuatIRSMahasiswa = () => {
                                         >
                                             <div>
                                                 <div className="font-medium text-[12px]">
-                                                    {course.name}
+                                                    {course.nama}
                                                 </div>
                                                 <div className="text-[10px] text-gray-500">
                                                     SMT {course.semester} -{" "}
-                                                    {course.code} (
-                                                    {course.credits} SKS)
+                                                    {course.kode_mk} (
+                                                    {course.sks} SKS)
                                                 </div>
                                             </div>
                                             <button
                                                 onClick={() =>
                                                     handleToggleCourse(
-                                                        course.id
+                                                        course.kode_mk
                                                     )
                                                 }
                                                 className="p-1 text-gray-400 hover:text-gray-600"
@@ -608,23 +454,22 @@ const BuatIRSMahasiswa = () => {
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <div className="font-medium text-[12px]">
-                                                        {course.name}
+                                                        {course.nama}
                                                     </div>
                                                     <div className="text-[10px] text-gray-500">
-                                                        {course.code} -{" "}
-                                                        {course.credits} SKS
+                                                        {course.kode_mk} -{" "}
+                                                        {course.sks} SKS
                                                         <br />
                                                         Kelas{" "}
                                                         {
-                                                            course.selectedClass
-                                                                .code
+                                                            course.selectedClass.kelas
                                                         }
                                                     </div>
                                                 </div>
                                                 <button
                                                     onClick={() =>
                                                         handleRemoveCourse(
-                                                            course.id
+                                                            course.kode_mk
                                                         )
                                                     }
                                                     className="text-red-500"
