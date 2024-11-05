@@ -315,7 +315,7 @@ const DashboardDosen = () => {
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
                                 <span className="text-gray-400 text-md">
-                                    IRS Sudah Diverifikasi {""}
+                                    IRS Sudah Disetujui {""}
                                     {selectedYear !== "all"
                                         ? `(Angkatan ${selectedYear})`
                                         : "(Semua Angkatan)"}
@@ -331,7 +331,7 @@ const DashboardDosen = () => {
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
                                 <span className="text-gray-400 text-md">
-                                    IRS Belum Diverifikasi {""}
+                                    IRS Belum Disetujui {""}
                                     {selectedYear !== "all"
                                         ? `(Angkatan ${selectedYear})`
                                         : "(Semua Angkatan)"}
