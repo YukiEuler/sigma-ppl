@@ -19,6 +19,7 @@ use App\Http\Controllers\PersetujuanIRSDosenController;
 use App\Http\Controllers\PerwalianDosenController;
 use App\Http\Controllers\ProfileDosenController;
 use App\Http\Controllers\ProfileMahasiswaController;
+use App\Http\Controllers\RekapIRSDosenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,5 @@ Route::get('mahasiswa/buat-irs/{id_kelas}', [BuatIRSMahasiswaController::class, 
 
 Route::get('dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/perwalian', [PerwalianDosenController::class, 'index'])->name('dosen.perwalian')->middleware(['auth', 'validateRole:Dosen']);
-Route::get('dosen/perwalian/detail/{id}', [PerwalianDosenController::class, 'detail'])->name('dosen.detailMhs')->middleware(['auth', 'validateRole:Dosen']);
+Route::get('dosen/perwalian/detail/{id}', [PerwalianDosenController::class, 'detail'])->name('dosen.detailmhs')->middleware(['auth', 'validateRole:Dosen']);
+Route::get('dosen/rekap-irs',[RekapIRSDosenController::class, 'index'])->name('dosen.rekapirs')->middleware(['auth', 'validateRole:Dosen']);
