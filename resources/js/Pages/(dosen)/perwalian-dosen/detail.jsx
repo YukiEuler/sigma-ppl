@@ -331,7 +331,7 @@ const DetailIRS = () => {
     return (
         <DosenLayout dosen={dosen}>
             <main className="flex-1 max-h-full">
-                <div className="flex flex-col items-start justify-between mt-2 pb-2 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
+                <div className="flex flex-col items-start justify-between mt-2 pb-3 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
                     <div className="flex itmes-center justify-center">
                         <button onClick={() => window.history.back()}>
                             <Icon

@@ -11,6 +11,7 @@ import {
 import { Icon } from "@iconify/react";
 import { usePage } from "@inertiajs/inertia-react";
 import MahasiswaLayout from "../../../Layouts/MahasiswaLayout";
+import { Calendar } from "lucide-react";
 
 const BuatIRSMahasiswa = () => {
     const { props } = usePage();
@@ -18,21 +19,6 @@ const BuatIRSMahasiswa = () => {
     const [mahasiswa, setMahasiswa] = useState(mahasiswaData);
     const jadwalData = props.jadwal;
     const [jadwal, setJadwal] = useState(jadwalData);
-
-    useEffect(() => {
-        setJadwal(jadwalData);
-    }, [jadwalData]);
-
-    const studentData = {
-        name: "Dzu Sunan Muhammad",
-        nim: "24060122120034",
-        yearOfStudy: "2024/2025 Ganjil",
-        semester: 2,
-        ipk: 4.0,
-        ips: 4.0,
-        maxCredits: 24,
-    };
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCourses, setSelectedCourses] = useState([]);
@@ -40,16 +26,66 @@ const BuatIRSMahasiswa = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const dropdownRef = useRef(null);
+    const [isWithinSchedule, setIsWithinSchedule] = useState(false);
 
-    // Time slots for the schedule
+    const [academicCalendar] = useState({
+        year: "2024",
+        semester: "Ganjil",
+        irsSchedule: {
+            startDate: "30-08-2024",
+            endDate: "13-09-2024",
+        },
+    });
+
+    const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
+
     const timeSlots = [];
     for (let i = 7; i <= 21; i++) {
         timeSlots.push(`${i.toString().padStart(2, "0")}:00`);
     }
 
-    const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
+    const parseDate = (dateStr) => {
+        const [day, month, year] = dateStr.split("-").map(Number);
+        return new Date(year, month - 1, day);
+    };
 
-    // Filter courses based on search
+    const formatIndonesianDate = (dateStr) => {
+        const days = [
+            "Minggu",
+            "Senin",
+            "Selasa",
+            "Rabu",
+            "Kamis",
+            "Jumat",
+            "Sabtu",
+        ];
+        const months = [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
+        ];
+
+        const [day, month, year] = dateStr.split("-").map(Number);
+        const date = new Date(year, month - 1, day);
+
+        const dayName = days[date.getDay()];
+        const monthName = months[date.getMonth()];
+
+        return `${dayName}, ${String(day).padStart(
+            2,
+            "0"
+        )} ${monthName} ${year}`;
+    };
+
     const filteredCourses = jadwalData.filter(
         (course) =>
             course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -64,7 +100,11 @@ const BuatIRSMahasiswa = () => {
 
     // Handle course selection from dropdown
     const handleCourseSelect = (course) => {
-        if (!selectedCourses.some((selected) => selected.kode_mk === course.kode_mk)) {
+        if (
+            !selectedCourses.some(
+                (selected) => selected.kode_mk === course.kode_mk
+            )
+        ) {
             setSelectedCourses([...selectedCourses, course]);
         }
         setIsDropdownOpen(false);
@@ -127,6 +167,22 @@ const BuatIRSMahasiswa = () => {
         return appropriateSlot === slotTime;
     };
 
+    useEffect(() => {
+        const checkSchedule = () => {
+            const now = new Date("2024-08-31");
+            const startDate = parseDate(academicCalendar.irsSchedule.startDate);
+            const endDate = parseDate(academicCalendar.irsSchedule.endDate);
+
+            // Set end date to end of day
+            endDate.setHours(23, 59, 59, 999);
+
+            const isWithin = now >= startDate && now <= endDate;
+            setIsWithinSchedule(isWithin);
+        };
+        checkSchedule();
+        setJadwal(jadwalData, academicCalendar);
+    }, [jadwalData]);
+
     const Schedule = () => (
         <div className="overflow-x-auto">
             <table className="w-full border-collapse">
@@ -153,63 +209,71 @@ const BuatIRSMahasiswa = () => {
                                 >
                                     <div className="flex flex-col gap-2">
                                         {selectedCourses.map((course) =>
-                                            course.jadwal_kuliah.map((classInfo) => {
-                                                if (
-                                                    classInfo.hari ===
-                                                        day &&
-                                                    isScheduleInTimeSlot(
-                                                        classInfo.jam_mulai,
-                                                        time
-                                                    )
-                                                ) {
-                                                    return (
-                                                        <div
-                                                            key={`${course.id}-${classInfo.code}`}
-                                                            className="bg-blue-100 p-2 rounded cursor-pointer hover:bg-blue-200 w-full"
-                                                            onClick={() =>
-                                                                handleClassSelect(
-                                                                    course,
-                                                                    classInfo
-                                                                )
-                                                            }
-                                                        >
-                                                            <div className="text-sm font-semibold">
-                                                                {course.nama}
-                                                            </div>
-                                                            <div className="text-xs">
-                                                                {course.type}{" "}
-                                                                (SMT
-                                                                {
-                                                                    course.semester
+                                            course.jadwal_kuliah.map(
+                                                (classInfo) => {
+                                                    if (
+                                                        classInfo.hari ===
+                                                            day &&
+                                                        isScheduleInTimeSlot(
+                                                            classInfo.jam_mulai,
+                                                            time
+                                                        )
+                                                    ) {
+                                                        return (
+                                                            <div
+                                                                key={`${course.id}-${classInfo.code}`}
+                                                                className="bg-blue-100 p-2 rounded cursor-pointer hover:bg-blue-200 w-full"
+                                                                onClick={() =>
+                                                                    handleClassSelect(
+                                                                        course,
+                                                                        classInfo
+                                                                    )
                                                                 }
-                                                                ) (
-                                                                {course.sks}{" "}
-                                                                SKS)
-                                                                <br />
-                                                                Kelas:{" "}
-                                                                {classInfo.kelas}
-                                                                <br />
-                                                                Kuota:{" "}
-                                                                {classInfo.kuota}{" "}
-                                                                <br />
-                                                                <div className="flex justify-start items-center gap-1">
-                                                                    <Icon icon="lsicon:time-two-outline" />
+                                                            >
+                                                                <div className="text-sm font-semibold">
                                                                     {
-                                                                        classInfo
-                                                                            .jam_mulai
-                                                                    }{" "}
-                                                                    -{" "}
-                                                                    {
-                                                                        classInfo
-                                                                            .jam_selesai
+                                                                        course.nama
                                                                     }
                                                                 </div>
+                                                                <div className="text-xs">
+                                                                    {
+                                                                        course.type
+                                                                    }{" "}
+                                                                    (SMT
+                                                                    {
+                                                                        course.semester
+                                                                    }
+                                                                    ) (
+                                                                    {course.sks}{" "}
+                                                                    SKS)
+                                                                    <br />
+                                                                    Kelas:{" "}
+                                                                    {
+                                                                        classInfo.kelas
+                                                                    }
+                                                                    <br />
+                                                                    Kuota:{" "}
+                                                                    {
+                                                                        classInfo.kuota
+                                                                    }{" "}
+                                                                    <br />
+                                                                    <div className="flex justify-start items-center gap-1">
+                                                                        <Icon icon="lsicon:time-two-outline" />
+                                                                        {
+                                                                            classInfo.jam_mulai
+                                                                        }{" "}
+                                                                        -{" "}
+                                                                        {
+                                                                            classInfo.jam_selesai
+                                                                        }
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    );
+                                                        );
+                                                    }
+                                                    return null;
                                                 }
-                                                return null;
-                                            })
+                                            )
                                         )}
                                     </div>
                                 </td>
@@ -221,11 +285,52 @@ const BuatIRSMahasiswa = () => {
         </div>
     );
 
+    if (!isWithinSchedule) {
+        return (
+            <MahasiswaLayout mahasiswa={mahasiswa}>
+                <div className="flex flex-col items-start justify-between mt-2 pb-3 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
+                    <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
+                        Buat IRS
+                    </h1>
+                </div>
+                <div className="flex flex-col items-center justify-center h-full bg-gray-50">
+                    <div className="text-center mb-8">
+                        <div className="mx-auto mb-4 flex justify-center">
+                            <Calendar className="w-16 h-16 text-gray-400" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                            Tidak dalam periode pembatalan IRS
+                        </h2>
+                        <p className="text-gray-600">
+                            Pembatalan IRS dapat dilakukan pada{" "}
+                            <span className="font-semibold">
+                                {formatIndonesianDate(
+                                    academicCalendar.irsSchedule.startDate
+                                )}
+                            </span>{" "}
+                            sampai{" "}
+                            <span className="font-semibold">
+                                {formatIndonesianDate(
+                                    academicCalendar.irsSchedule.endDate
+                                )}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </MahasiswaLayout>
+        );
+    }
+
     return (
         <MahasiswaLayout mahasiswa={mahasiswa}>
             <main className="flex-1 max-h-full">
+                <div className="flex flex-col items-start justify-between mt-2 pb-3 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
+                    <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
+                        Buat IRS
+                    </h1>
+                </div>
                 <div
-                    className="grid grid-cols-1 gap-3 mt-1 sm:grid-cols-2 lg:grid-cols-7"
+                    className="grid grid-cols-1 gap-3 mt-4 sm:grid-cols-2 lg:grid-cols-7"
                     style={{
                         height: "85vh",
                     }}
@@ -244,35 +349,35 @@ const BuatIRSMahasiswa = () => {
                                 <div className="student-info-container font-bold">
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">Nama</label>
-                                        <span>: {studentData.name}</span>
+                                        <span>: {mahasiswa.nama}</span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">NIM</label>
-                                        <span>: {studentData.nim}</span>
+                                        <span>: {mahasiswa.nim}</span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">
                                             Tahun Ajaran
                                         </label>
-                                        <span>: {studentData.yearOfStudy}</span>
+                                        <span>: 2024/2025 Ganjil </span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">Semester</label>
-                                        <span>: {studentData.semester}</span>
+                                        <span>: 3 </span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">IPK</label>
-                                        <span>: {studentData.ipk}</span>
+                                        <span>: {mahasiswa.ipk}</span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">IPS</label>
-                                        <span>: {studentData.ips}</span>
+                                        <span>: 3.78 </span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">
                                             Max Beban SKS
                                         </label>
-                                        <span>: {studentData.maxCredits}</span>
+                                        <span>: 24 </span>
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +439,9 @@ const BuatIRSMahasiswa = () => {
                                                     filteredCourses.map(
                                                         (course) => (
                                                             <button
-                                                                key={course.kode_mk}
+                                                                key={
+                                                                    course.kode_mk
+                                                                }
                                                                 onClick={() =>
                                                                     handleCourseSelect(
                                                                         course
@@ -352,9 +459,7 @@ const BuatIRSMahasiswa = () => {
                                                                         course.kode_mk
                                                                     }{" "}
                                                                     -{" "}
-                                                                    {
-                                                                        course.sks
-                                                                    }{" "}
+                                                                    {course.sks}{" "}
                                                                     SKS
                                                                 </div>
                                                             </button>
@@ -418,7 +523,7 @@ const BuatIRSMahasiswa = () => {
 
                 {/* Sidebar */}
                 <div
-                    className={`fixed right-0 top-14 h-full bg-[#1EAADF] shadow-lg transition-all duration-300 ${
+                    className={`fixed right-0 top-0 h-full bg-[#1EAADF] shadow-lg transition-all duration-300 ${
                         isSidebarOpen ? "w-80" : "w-12"
                     }`}
                 >
@@ -462,7 +567,8 @@ const BuatIRSMahasiswa = () => {
                                                         <br />
                                                         Kelas{" "}
                                                         {
-                                                            course.selectedClass.kelas
+                                                            course.selectedClass
+                                                                .kelas
                                                         }
                                                     </div>
                                                 </div>
