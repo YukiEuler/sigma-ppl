@@ -241,7 +241,7 @@ const DashboardDosen = () => {
                 <div className="flex items-center space-x-4 mt-4">
                     <label
                         htmlFor="yearFilter"
-                        className="text-gray-700 font-medium"
+                        className="text-sm font-medium text-gray-900"
                     >
                         Angkatan:
                     </label>
@@ -249,7 +249,7 @@ const DashboardDosen = () => {
                         id="yearFilter"
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(e.target.value)}
-                        className="p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                         {years.map((year) => (
                             <option key={year} value={year}>

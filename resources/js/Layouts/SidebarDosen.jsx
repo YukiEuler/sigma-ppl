@@ -72,11 +72,24 @@ const SidebarDosen = ({ dosen }) => {
                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
                         >
                             <Icon
-                                icon="solar:notebook-bookmark-bold"
+                                icon="fluent:people-team-16-filled"
                                 width="24"
                                 height="24"
                             />
                             <span className="ms-3">Perwalian</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="/dosen/rekap-irs"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                        >
+                            <Icon
+                                icon="solar:notebook-bookmark-bold"
+                                width="24"
+                                height="24"
+                            />
+                            <span className="ms-3">Rekap IRS</span>
                         </a>
                     </li>
                     <li>
