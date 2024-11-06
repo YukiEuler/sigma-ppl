@@ -331,13 +331,9 @@ const DetailIRS = () => {
     return (
         <DosenLayout dosen={dosen}>
             <main className="flex-1 max-h-full">
-                <div className="flex flex-col items-start justify-between pb-6 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
+                <div className="flex flex-col items-start justify-between mt-2 pb-2 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
                     <div className="flex itmes-center justify-center">
-                        <button
-                            onClick={() =>
-                                (window.location.href = "/dosen/perwalian")
-                            }
-                        >
+                        <button onClick={() => window.history.back()}>
                             <Icon
                                 icon="weui:back-filled"
                                 className="mt-[5px]"
@@ -770,10 +766,7 @@ const DetailIRS = () => {
                                     )}
                                 </div>
                                 <button
-                                    onClick={() =>
-                                        (window.location.href =
-                                            "/dosen/perwalian")
-                                    }
+                                    onClick={() => window.history.back()}
                                     className="w-32 mt-4 mr-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                                 >
                                     <div className="flex items-center justify-center">
