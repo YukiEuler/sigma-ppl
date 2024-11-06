@@ -12,8 +12,8 @@ class IrsSeeder extends Seeder
      */
     public function run(): void
     {
-        Irs::create([
+        // Irs::create([
 
-        ]);
+        // ]);
     }
 }
