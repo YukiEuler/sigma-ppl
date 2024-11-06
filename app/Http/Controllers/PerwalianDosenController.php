@@ -36,10 +36,13 @@ class PerwalianDosenController extends Controller
             $mhs->nama_prodi = $prodiMhs ? $prodiMhs->nama_prodi : null;
             return $mhs;
         });
+
+        $jumlahMahasiswa = Mahasiswa::where('nip_dosen_wali', $dosen->nip)->count();
         
         return Inertia::render('(dosen)/perwalian-dosen/page', [
             'dosen' => $dosen,
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'jumlahMahasiswa' => $jumlahMahasiswa
         ]);
     }
 
