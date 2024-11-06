@@ -8,7 +8,7 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
             class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar"
         >
-            <div className="container mx-auto py-2 bg-[#1EAADF]">
+            <div className="container mx-auto py-[13px] bg-[#1EAADF]">
                 <div className="flex justify-center items-center    ">
                     <a href="dashboard">
                         <img
@@ -24,6 +24,7 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
                     </a>
                 </div>
             </div>
+            <div className="border-2 border-white"></div>
             <div
                 class="h-full px-3 py-4 overflow-y-auto"
                 style={{ backgroundColor: "#1EAADF" }}
