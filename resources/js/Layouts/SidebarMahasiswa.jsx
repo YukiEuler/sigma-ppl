@@ -8,6 +8,22 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
             class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar"
         >
+            <div className="container mx-auto py-2 bg-[#1EAADF]">
+                <div className="flex justify-center items-center    ">
+                    <a href="dashboard">
+                        <img
+                            src="/logoundip.png"
+                            style={{ width: "35px", height: "25px" }}
+                        />
+                    </a>
+                    <a
+                        href="dashboard"
+                        className="font-serif font-semibold text-xl text-white"
+                    >
+                        SIGMA UNDIP
+                    </a>
+                </div>
+            </div>
             <div
                 class="h-full px-3 py-4 overflow-y-auto"
                 style={{ backgroundColor: "#1EAADF" }}

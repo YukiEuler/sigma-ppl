@@ -11,7 +11,27 @@ const SidebarDosen = ({ dosen }) => {
             className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar"
         >
-            <div className="h-full px-3 py-4 overflow-y-auto" style={{ backgroundColor: "#1EAADF" }}>
+            <div className="container mx-auto py-[13px] bg-[#1EAADF]">
+                <div className="flex justify-center items-center    ">
+                    <a href="dashboard">
+                        <img
+                            src="/logoundip.png"
+                            style={{ width: "35px", height: "25px" }}
+                        />
+                    </a>
+                    <a
+                        href="dashboard"
+                        className="font-serif font-semibold text-xl text-white"
+                    >
+                        SIGMA UNDIP
+                    </a>
+                </div>
+            </div>
+            <div className="border-2 border-white"></div>
+            <div
+                className="h-full px-3 py-4 overflow-y-auto"
+                style={{ backgroundColor: "#1EAADF" }}
+            >
                 <ul className="space-y-2 font-medium">
                     <li>
                         <Icon

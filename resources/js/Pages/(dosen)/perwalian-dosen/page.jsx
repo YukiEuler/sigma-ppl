@@ -36,7 +36,7 @@ const PersetujuanIRSDosen = () => {
             <main className="flex-1 max-h-full">
                 <div className="flex flex-col items-start justify-between pb-6 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
                     <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
-                        Persetujuan IRS
+                        Perwalian
                     </h1>
                 </div>
                 <div className="grid grid-cols-1 gap-5 mt-6">
@@ -95,33 +95,6 @@ const PersetujuanIRSDosen = () => {
                                                     </option>
                                                     <option value="KA">
                                                         Komputer Akuntansi
-                                                    </option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="text-sm font-medium text-gray-900">
-                                                Status IRS
-                                            </td>
-                                            <td>
-                                                <select
-                                                    id="prodi"
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                >
-                                                    <option selected>
-                                                        Select an option
-                                                    </option>
-                                                    <option value="TI">
-                                                        Sudah Mengisi
-                                                    </option>
-                                                    <option value="SI">
-                                                        Belum Mengisi
-                                                    </option>
-                                                    <option value="MI">
-                                                        Belum Disetujui
-                                                    </option>
-                                                    <option value="KA">
-                                                        Sudah Disetujui
                                                     </option>
                                                 </select>
                                             </td>
@@ -255,7 +228,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "15%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     Nama
@@ -266,7 +239,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "10%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     NIM
@@ -277,7 +250,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "15%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     Prodi
@@ -288,7 +261,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "10%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     Angkatan
@@ -299,7 +272,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "5%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     IP Lalu
@@ -310,7 +283,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "3%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     SKS Diambil
@@ -321,7 +294,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "10%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     Status Mahasiswa
@@ -332,18 +305,7 @@ const PersetujuanIRSDosen = () => {
                                                     style={{
                                                         width: "10%",
                                                         textAlign: "center",
-                                                        fontSize: "12px"
-                                                    }}
-                                                >
-                                                    Status IRS
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-4 py-2"
-                                                    style={{
-                                                        width: "10%",
-                                                        textAlign: "center",
-                                                        fontSize: "12px"
+                                                        fontSize: "12px",
                                                     }}
                                                 >
                                                     Detail
@@ -374,7 +336,9 @@ const PersetujuanIRSDosen = () => {
                                                                 />
                                                             </div>
                                                         </td>
-                                                        <td className="px-4 py-2 text-[14px]">
+                                                        <td
+                                                            className="px-4 py-2 text-[14px] text-center"
+                                                        >
                                                             {index + 1}
                                                         </td>
                                                         <td className="px-4 py-2 text-[14px]">
@@ -386,27 +350,24 @@ const PersetujuanIRSDosen = () => {
                                                         <td className="px-4 py-2 text-[14px]">
                                                             {item.nama_prodi}
                                                         </td>
-                                                        <td className="px-4 py-2 text-[14px]">
+                                                        <td className="px-4 py-2 text-[14px] text-center">
                                                             {item.angkatan}
                                                         </td>
-                                                        <td className="px-4 py-2 text-[14px]">
+                                                        <td className="px-4 py-2 text-[14px] text-center">
                                                             {item.ipk.toFixed(
                                                                 2
                                                             )}
                                                         </td>
-                                                        <td className="px-4 py-2 text-[14px]">
+                                                        <td className="px-4 py-2 text-[14px] text-center">
                                                             {item.sks_kumulatif}
                                                         </td>
-                                                        <td className="px-4 py-2 text-[14px]">
+                                                        <td className="px-4 py-2 text-[14px] text-center">
                                                             {item.status}
-                                                        </td>
-                                                        <td className="px-4 py-2 text-[14px]">
-                                                            Status
                                                         </td>
                                                         <td className="flex items-center justify-center py-3">
                                                             <a
                                                                 href={`/dosen/perwalian/detail/${item.nim}`}
-                                                                className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-[12px]"
+                                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-[14px]"
                                                             >
                                                                 Detail
                                                             </a>

@@ -330,14 +330,26 @@ const DetailIRS = () => {
 
     return (
         <DosenLayout dosen={dosen}>
-            {/* <h1>Detail</h1>
-            <p>Nama: {mahasiswa.nama}</p>
-            <p>NIM: {mahasiswa.nim}</p> */}
             <main className="flex-1 max-h-full">
                 <div className="flex flex-col items-start justify-between pb-6 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
-                    <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
-                        Perwalian
-                    </h1>
+                    <div className="flex itmes-center justify-center">
+                        <button
+                            onClick={() =>
+                                (window.location.href = "/dosen/perwalian")
+                            }
+                        >
+                            <Icon
+                                icon="weui:back-filled"
+                                className="mt-[5px]"
+                                width="24"
+                                height="24"
+                            />
+                        </button>
+
+                        <h1 className="ml-2 text-2xl font-semibold whitespace-nowrap text-black">
+                            Data Mahasiswa
+                        </h1>
+                    </div>
                 </div>
                 <div className="grid grid-cols-1 mt-6">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
