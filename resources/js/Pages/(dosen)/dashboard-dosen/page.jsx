@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import DosenLayout from "../../../Layouts/DosenLayout";
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
+import Chart from "react-apexcharts";
 
 const DashboardDosen = () => {
     const { props } = usePage();
@@ -211,24 +211,15 @@ const DashboardDosen = () => {
 
     // Calculate statistics
     const totalStudents = students.length;
-    const filledIRS = students.filter((s) => s.irsStatus === "Sudah").length;
-    const notFilledIRS = students.filter((s) => s.irsStatus === "Belum").length;
-    const verifiedIRS = students.filter(
-        (s) => s.verificationStatus === "Sudah"
+    const notFilledIRS = students.filter(
+        (s) => s.irsStatus === "Belum" && s.verificationStatus === "Belum"
     ).length;
     const notVerifiedIRS = students.filter(
-        (s) => s.verificationStatus === "Belum" && s.irsStatus === "Sudah"
+        (s) => s.irsStatus === "Sudah" && s.verificationStatus === "Belum"
     ).length;
-
-    // Data for pie chart
-    const pieData = [
-        { name: "Sudah Mengisi IRS", value: filledIRS },
-        { name: "Belum Mengisi IRS", value: notFilledIRS },
-        { name: "Sudah Verifikasi IRS", value: verifiedIRS },
-        { name: "Belum Verifikasi IRS", value: notVerifiedIRS },
-    ];
-
-    const COLORS = ["#03045e", "#0077b6", "#00b4d8", "#90e0ef"];
+    const verifiedIRS = students.filter(
+        (s) => s.irsStatus === "Sudah" && s.verificationStatus === "Sudah"
+    ).length;
 
     return (
         <DosenLayout dosen={dosen}>
@@ -238,7 +229,7 @@ const DashboardDosen = () => {
                         Dashboard
                     </h1>
                 </div>
-                <div className="flex items-center space-x-4 mt-4">
+                <div className="flex items-center space-x-4 mt-3">
                     <label
                         htmlFor="yearFilter"
                         className="text-sm font-medium text-gray-900"
@@ -260,7 +251,7 @@ const DashboardDosen = () => {
                         ))}
                     </select>
                 </div>
-                <div className="grid grid-cols-1 gap-3 mt-6 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-3 mt-2 lg:grid-cols-2">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
@@ -272,22 +263,6 @@ const DashboardDosen = () => {
                                 </span>
                                 <span className="text-lg font-semibold">
                                     {totalStudents}
-                                </span>
-                            </div>
-                            <div className="p-8"></div>
-                        </div>
-                    </div>
-                    <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
-                        <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
-                            <div className="flex flex-col space-y-2">
-                                <span className="text-gray-400 text-md">
-                                    Sudah Mengisi IRS {""}
-                                    {selectedYear !== "all"
-                                        ? `(Angkatan ${selectedYear})`
-                                        : "(Semua Angkatan)"}
-                                </span>
-                                <span className="text-lg font-semibold">
-                                    {filledIRS}
                                 </span>
                             </div>
                             <div className="p-8"></div>
@@ -310,7 +285,7 @@ const DashboardDosen = () => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 gap-3 mt-6 sm:grid-cols-2 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 mt-3 sm:grid-cols-2 lg:grid-cols-2">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="flex items-start justify-between p-2 border rounded-lg shadow-lg bg-white">
                             <div className="flex flex-col space-y-2">
@@ -345,7 +320,7 @@ const DashboardDosen = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-5 mt-6 lg:grid-cols-1">
+                <div className="grid grid-cols-1 mt-3">
                     <div className="p-3 transition-shadow border rounded-lg shadow-sm hover:shadow-lg bg-gray-100">
                         <div className="p-2 border rounded-lg shadow-lg bg-white">
                             <div className="mt-2 mb-2">
@@ -355,39 +330,35 @@ const DashboardDosen = () => {
                                         ? `(Angkatan ${selectedYear})`
                                         : "(Semua Angkatan)"}
                                 </h2>
-                                <div className="h-full">
-                                    <ResponsiveContainer
-                                        width="100%"
-                                        height={250}
-                                    >
-                                        <PieChart>
-                                            <Pie
-                                                data={pieData}
-                                                cx="50%"
-                                                cy="50%"
-                                                labelLine={false}
-                                                outerRadius={80}
-                                                fill="#8884d8"
-                                                dataKey="value"
-                                                label={({ name, value }) =>
-                                                    `${name}: ${value}`
-                                                }
-                                            >
-                                                {pieData.map((entry, index) => (
-                                                    <Cell
-                                                        key={`cell-${index}`}
-                                                        fill={
-                                                            COLORS[
-                                                                index %
-                                                                    COLORS.length
-                                                            ]
-                                                        }
-                                                    />
-                                                ))}
-                                            </Pie>
-                                            <Legend />
-                                        </PieChart>
-                                    </ResponsiveContainer>
+                                <div className="py-3 grid place-items-center px-2">
+                                    <div className="h-full">
+                                        <Chart
+                                            type="pie"
+                                            width={350}
+                                            height={350}
+                                            series={[
+                                                notFilledIRS,
+                                                notVerifiedIRS,
+                                                verifiedIRS,
+                                            ]}
+                                            options={{
+                                                labels: [
+                                                    "Belum Mengisi IRS",
+                                                    "Belum Disetujui IRS",
+                                                    "Sudah Disetujui IRS",
+                                                ],
+                                                colors: [
+                                                    "#03045e",
+                                                    "#0077b6",
+                                                    "#00b4d8",
+                                                ],
+                                                legend: {
+                                                    show: true,
+                                                    position: "right",
+                                                },
+                                            }}
+                                        ></Chart>
+                                    </div>
                                 </div>
                             </div>
                         </div>
