@@ -39,10 +39,34 @@ class MahasiswaSeeder extends Seeder
                 'status' => $statusOptions[array_rand($statusOptions)],
                 'sks_kumulatif' => rand(0,144),
                 'ipk' => $faker->randomFloat(2, 0, 4),
+                'semester' => rand(1, 8),
                 'id_prodi' => 62,
                 'nip_dosen_wali' => '197404011999031002',
                 'user_id' => $userMahasiswa->id
             ]);
         }
+
+        $user = User::create([
+            'username' => '24060122120034',
+            'email' => 'sunan@students.undip.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'Mahasiswa',
+        ]);
+
+        Mahasiswa::create([
+            'nim' => $user->username,
+            'nama' => 'Dzu Sunan Muhammad',
+            'alamat' => $faker->address,
+            'no_telp' => $faker->phoneNumber,
+            'angkatan' => 2023,
+            'jalur_masuk' => 'SNMPTN',
+            'status' => 'Aktif',
+            'sks_kumulatif' => 45,
+            'ipk' => 3.79,
+            'semester' => 3,
+            'id_prodi' => 62,
+            'nip_dosen_wali' => '197404011999031002',
+            'user_id' => $user->id
+        ]);
     }
 }
