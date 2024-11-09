@@ -12,6 +12,8 @@ import { Icon } from "@iconify/react";
 import { usePage } from "@inertiajs/inertia-react";
 import MahasiswaLayout from "../../../Layouts/MahasiswaLayout";
 import { Calendar } from "lucide-react";
+import { Inertia } from "@inertiajs/inertia";
+import Swal from "sweetalert2";
 
 const BuatIRSMahasiswa = () => {
     const { props } = usePage();
@@ -19,6 +21,8 @@ const BuatIRSMahasiswa = () => {
     const [mahasiswa, setMahasiswa] = useState(mahasiswaData);
     const jadwalData = props.jadwal;
     const [jadwal, setJadwal] = useState(jadwalData);
+    const irsData = props.irs;
+    const [irs, setIrs] = useState(irsData);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCourses, setSelectedCourses] = useState([]);
@@ -117,12 +121,19 @@ const BuatIRSMahasiswa = () => {
             selectedCourses.filter((course) => course.kode_mk !== courseId)
         );
     };
+    // Set Registered Awal
+
+    useEffect(() => {
+        const initialRegisteredCourses = [];
+        for (const course of irs) {
+            initialRegisteredCourses.push(course);
+        }
+        setRegisteredCourses(initialRegisteredCourses);
+    }, [irs]);
 
     // Handle class selection
     const handleClassSelect = (course, classInfo) => {
-        console.log("masuk ");
         console.log(course);
-        console.log(classInfo);
         const existingCourse = registeredCourses.find(
             (c) => c.kode_mk === course.kode_mk
         );
@@ -134,14 +145,38 @@ const BuatIRSMahasiswa = () => {
                     selectedClass: classInfo,
                 },
             ]);
+            Inertia.visit('/mahasiswa/buat-irs/insert/' + classInfo.id_kelas, {
+                method: 'get',
+                preserveState: true,
+            });
         }
     };
 
     // Handle course removal from registration
     const handleRemoveCourse = (courseId) => {
-        setRegisteredCourses(
-            registeredCourses.filter((course) => course.id !== courseId)
-        );
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin menghapus course ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setRegisteredCourses(
+                    registeredCourses.filter((course) => course.selectedClass.id_kelas !== courseId)
+                );
+                Inertia.visit('/mahasiswa/buat-irs/delete/' + courseId, {
+                    method: 'get',
+                    preserveState: true,
+                });
+                Swal.fire(
+                    'Deleted!',
+                    'Course sudah dihapus.',
+                    'success'
+                );
+            }
+        });
     };
 
     // Handle submission
@@ -575,7 +610,7 @@ const BuatIRSMahasiswa = () => {
                                                 <button
                                                     onClick={() =>
                                                         handleRemoveCourse(
-                                                            course.kode_mk
+                                                            course.selectedClass.id_kelas
                                                         )
                                                     }
                                                     className="text-red-500"

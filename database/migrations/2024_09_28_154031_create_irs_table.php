@@ -12,7 +12,7 @@ class CreateIrsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_kelas');
             $table->enum('semester', ['1', '2', '3', '4', '5', '6', '7', '8']);
-            $table->integer('tahun');
+            $table->string('tahun_akademik');
             $table->enum('status', ['Baru', 'Perbaikan', 'Ulang']);
             $table->string('nim', 30);
             $table->boolean('is_verified')->default(false);

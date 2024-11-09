@@ -15,7 +15,7 @@ class Irs extends Model
     protected $fillable = [
         'id_kelas',
         'semester',
-        'tahun',
+        'tahun_akademik',
         'status',
         'nim',
         'is_verified'
