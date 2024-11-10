@@ -46,21 +46,28 @@ class BuatIRSMahasiswaController extends Controller
                     'id' => $item->id,
                     'id_kelas' => $item->id_kelas,
                     'hari' => $item->hari,
-                    'jam_mulai' => $item->waktu_mulai,
-                    'jam_selesai' => $item->waktu_selesai,
+                    'waktu_mulai' => $item->waktu_mulai,
+                    'waktu_selesai' => $item->waktu_selesai,
                     'ruangan' => $item->nama_ruang,
                     'kelas' => $item->kode_kelas,
                     'kuota' => $item->kuota,
                 ];
             });
-            return $mataKuliah;
+            return [
+                'kode_mk' => $mataKuliah->kode_mk,
+                'nama' => $mataKuliah->nama,
+                'sks' => $mataKuliah->sks,
+                'jadwal_kuliah' => $mataKuliah->jadwal_kuliah,
+                'sudah_diajukan' => $mataKuliah->diajukan,
+            ];
         })
         ->values();
     
     $irs = Irs::join('kelas', 'irs.id_kelas', '=', 'kelas.id')
         ->join('mata_kuliah', 'kelas.kode_mk', '=', 'mata_kuliah.kode_mk')
         ->where('irs.nim', $mahasiswa->nim)
-        ->select('kelas.*', 'mata_kuliah.nama', 'mata_kuliah.sks', 'mata_kuliah.kode_mk')
+        ->join('jadwal_kuliah', 'jadwal_kuliah.id_kelas', '=', 'kelas.id')
+        ->select('kelas.*', 'mata_kuliah.nama', 'mata_kuliah.sks', 'mata_kuliah.kode_mk', 'jadwal_kuliah.hari', 'jadwal_kuliah.waktu_mulai', 'jadwal_kuliah.waktu_selesai', 'irs.diajukan')
         ->get()
         ->groupBy('kode_mk')
         ->map(function ($group) {
@@ -70,6 +77,9 @@ class BuatIRSMahasiswaController extends Controller
                     'id_kelas' => $item->id,
                     'kelas' => $item->kode_kelas,
                     'kuota' => $item->kuota,
+                    'hari' => $item->hari,
+                    'waktu_mulai' => $item->waktu_mulai,
+                    'waktu_selesai' => $item->waktu_selesai,
                 ];
             });
             return [
@@ -77,11 +87,10 @@ class BuatIRSMahasiswaController extends Controller
                 'nama' => $mataKuliah->nama,
                 'sks' => $mataKuliah->sks,
                 'selectedClass' => $mataKuliah->kelas[0],
+                'sudah_diajukan' => $mataKuliah->diajukan,
             ];
         })
         ->values();
-    error_log($irs);
-    $selectedClass = $irs->toJson();
     
     return Inertia::render('(mahasiswa)/buat-irs-mahasiswa/page', ['mahasiswa' => $mahasiswa, 'jadwal' => $jadwal, 'irs' => $irs]);
     }

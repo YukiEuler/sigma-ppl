@@ -53,6 +53,11 @@ const BuatIRSMahasiswa = () => {
         return new Date(year, month - 1, day);
     };
 
+    const parseTime = (timeStr) => {
+        const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+        return new Date(1970, 0, 1, hours, minutes, seconds);
+    };
+
     const formatIndonesianDate = (dateStr) => {
         const days = [
             "Minggu",
@@ -121,19 +126,21 @@ const BuatIRSMahasiswa = () => {
             selectedCourses.filter((course) => course.kode_mk !== courseId)
         );
     };
-    // Set Registered Awal
 
+    // Set Registered Awal
     useEffect(() => {
-        const initialRegisteredCourses = [];
+        const initialRegisteredCourses = [], initialCourseSelect = [];
         for (const course of irs) {
             initialRegisteredCourses.push(course);
+            const elm = filteredCourses.find((filteredCourse) => filteredCourse.kode_mk === course.kode_mk);
+            initialCourseSelect.push(elm);
         }
         setRegisteredCourses(initialRegisteredCourses);
+        setSelectedCourses(initialCourseSelect);
     }, [irs]);
 
     // Handle class selection
     const handleClassSelect = (course, classInfo) => {
-        console.log(course);
         const existingCourse = registeredCourses.find(
             (c) => c.kode_mk === course.kode_mk
         );
@@ -250,20 +257,57 @@ const BuatIRSMahasiswa = () => {
                                                         classInfo.hari ===
                                                             day &&
                                                         isScheduleInTimeSlot(
-                                                            classInfo.jam_mulai,
+                                                            classInfo.waktu_mulai,
                                                             time
                                                         )
                                                     ) {
+                                                        const kelasRegistered = registeredCourses.some(
+                                                            (registeredCourse) =>
+                                                                registeredCourse.selectedClass.id_kelas ===
+                                                                classInfo.id_kelas
+                                                        );
+                                                        const matkulRegistered = registeredCourses.some(
+                                                            (registeredCourse) =>
+                                                                registeredCourse.kode_mk ===
+                                                                course.kode_mk
+                                                        );
+                                                        const bentrok = registeredCourses.some((registeredCourse) => {
+                                                            const jadwal = registeredCourse.selectedClass;
+                                                            return (
+                                                                jadwal.hari === classInfo.hari &&
+                                                                parseTime(jadwal.waktu_mulai) <= parseTime(classInfo.waktu_selesai) &&
+                                                                parseTime(jadwal.waktu_selesai) >= parseTime(classInfo.waktu_mulai)
+                                                            )
+                                                        });
+                                                        let tooltipMessage = '';
+                                                        if (kelasRegistered) {
+                                                            tooltipMessage = 'Kelas sudah terdaftar';
+                                                        } else if (matkulRegistered) {
+                                                            tooltipMessage = 'Mata kuliah sudah terdaftar';
+                                                        } else if (bentrok) {
+                                                            tooltipMessage = 'Jadwal bentrok';
+                                                        }
+
                                                         return (
                                                             <div
                                                                 key={`${course.id}-${classInfo.code}`}
-                                                                className="bg-blue-100 p-2 rounded cursor-pointer hover:bg-blue-200 w-full"
+                                                                className={`p-2 rounded w-full ${
+                                                                    kelasRegistered
+                                                                        ? "cursor-not-allowed bg-green-100 hover:bg-green-200"
+                                                                        : matkulRegistered || bentrok
+                                                                        ? "cursor-not-allowed bg-red-100 hover:bg-red-200"
+                                                                        : "cursor-pointer bg-blue-100 hover:bg-blue-200"
+                                                                }`}
                                                                 onClick={() =>
+                                                                    !kelasRegistered &&
+                                                                    !matkulRegistered &&
+                                                                    !bentrok &&
                                                                     handleClassSelect(
                                                                         course,
                                                                         classInfo
                                                                     )
                                                                 }
+                                                                title={tooltipMessage}
                                                             >
                                                                 <div className="text-sm font-semibold">
                                                                     {
@@ -295,11 +339,11 @@ const BuatIRSMahasiswa = () => {
                                                                     <div className="flex justify-start items-center gap-1">
                                                                         <Icon icon="lsicon:time-two-outline" />
                                                                         {
-                                                                            classInfo.jam_mulai
+                                                                            classInfo.waktu_mulai
                                                                         }{" "}
                                                                         -{" "}
                                                                         {
-                                                                            classInfo.jam_selesai
+                                                                            classInfo.waktu_selesai
                                                                         }
                                                                     </div>
                                                                 </div>
