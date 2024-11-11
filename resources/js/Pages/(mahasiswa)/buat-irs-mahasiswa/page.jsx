@@ -26,6 +26,7 @@ const BuatIRSMahasiswa = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCourses, setSelectedCourses] = useState([]);
+    const [filteredCourses, setFilteredCourses] = useState([]);
     const [registeredCourses, setRegisteredCourses] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -96,11 +97,11 @@ const BuatIRSMahasiswa = () => {
         )} ${monthName} ${year}`;
     };
 
-    const filteredCourses = jadwalData.filter(
-        (course) =>
-            course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // const filteredCourses = jadwalData.filter(
+    //     (course) =>
+    //         course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //         course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
 
     // Calculate total credits
     const totalCredits = registeredCourses.reduce(
@@ -110,12 +111,16 @@ const BuatIRSMahasiswa = () => {
 
     // Handle course selection from dropdown
     const handleCourseSelect = (course) => {
+        console.log(selectedCourses);
+        console.log(course);
         if (
             !selectedCourses.some(
                 (selected) => selected.kode_mk === course.kode_mk
             )
         ) {
+            console.log("Masuk");
             setSelectedCourses([...selectedCourses, course]);
+            setFilteredCourses(filteredCourses.filter((c) => c.kode_mk !== course.kode_mk));
         }
         setIsDropdownOpen(false);
         setSearchQuery("");
@@ -126,21 +131,34 @@ const BuatIRSMahasiswa = () => {
         setSelectedCourses(
             selectedCourses.filter((course) => course.kode_mk !== courseId)
         );
+        const courseToAdd = jadwalData.find((course) => course.kode_mk === courseId);
+        if (courseToAdd) {
+            setFilteredCourses([...filteredCourses, courseToAdd]);
+        }
     };
+
+    useEffect(() => {
+        setFilteredCourses(jadwalData.filter(
+            (course) =>
+            (course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())) &&
+            !irs.some((registeredCourse) => registeredCourse.kode_mk === course.kode_mk)
+        ));
+    }, []);
 
     // Set Registered Awal
     useEffect(() => {
         const initialRegisteredCourses = [], initialCourseSelect = [];
         for (const course of irs) {
             initialRegisteredCourses.push(course);
-            const elm = filteredCourses.find((filteredCourse) => filteredCourse.kode_mk === course.kode_mk);
+            const elm = jadwalData.find((filteredCourse) => filteredCourse.kode_mk === course.kode_mk);
             initialCourseSelect.push(elm);
         }
         setRegisteredCourses(initialRegisteredCourses);
         setSelectedCourses(initialCourseSelect);
         setIsSubmitted(Boolean(irs[0].sudah_diajukan));
         setIsVerified(Boolean(irs[0].sudah_disetujui));
-    }, [irs]);
+    }, []);
 
     // Handle class selection
     const handleClassSelect = (course, classInfo) => {
@@ -304,12 +322,14 @@ const BuatIRSMahasiswa = () => {
                                                                 key={`${course.id}-${classInfo.code}`}
                                                                 className={`p-2 rounded w-full ${
                                                                     kelasRegistered
-                                                                        ? "cursor-not-allowed bg-green-100 hover:bg-green-200"
-                                                                        : matkulRegistered || bentrok
-                                                                        ? "cursor-not-allowed bg-red-100 hover:bg-red-200"
+                                                                        ? "cursor-not-allowed bg-green-400 hover:bg-green-500"
+                                                                        : matkulRegistered
+                                                                        ? "cursor-not-allowed bg-yellow-100 hover:bg-yellow-200"
+                                                                        : bentrok
+                                                                        ? "cursor-not-allowed bg-red-300 hover:bg-red-400"
                                                                         : isSubmitted || isVerified
-                                                                        ? "cursor-not-allowed bg-blue-100 hover:bg-blue-200"
-                                                                        : "cursor-pointer bg-blue-100 hover:bg-blue-200"
+                                                                        ? "cursor-not-allowed bg-blue-200 hover:bg-blue-300"
+                                                                        : "cursor-pointer bg-blue-200 hover:bg-blue-300"
                                                                 }`}
                                                                 onClick={() =>
                                                                     !kelasRegistered &&
@@ -334,7 +354,7 @@ const BuatIRSMahasiswa = () => {
                                                                         course.type
                                                                     }{" "}
                                                                     (SMT
-                                                                    {
+                                                                    {" "}{
                                                                         course.semester
                                                                     }
                                                                     ) (
@@ -570,6 +590,7 @@ const BuatIRSMahasiswa = () => {
                                     Mata Kuliah
                                 </h2>
                                 <div className="space-y-2 max-h-[35vh] overflow-y-auto pr-2">
+                                    {console.log(selectedCourses)}
                                     {selectedCourses.map((course) => (
                                         <div
                                             key={course.id}
@@ -580,7 +601,7 @@ const BuatIRSMahasiswa = () => {
                                                     {course.nama}
                                                 </div>
                                                 <div className="text-[10px] text-gray-500">
-                                                    SMT {course.semester} -{" "}
+                                                    Semester {course.semester} -{" "}
                                                     {course.kode_mk} (
                                                     {course.sks} SKS)
                                                 </div>

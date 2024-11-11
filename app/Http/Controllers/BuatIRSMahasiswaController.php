@@ -57,6 +57,7 @@ class BuatIRSMahasiswaController extends Controller
                 'kode_mk' => $mataKuliah->kode_mk,
                 'nama' => $mataKuliah->nama,
                 'sks' => $mataKuliah->sks,
+                'semester' => $mataKuliah->semester,
                 'jadwal_kuliah' => $mataKuliah->jadwal_kuliah,
                 'sudah_diajukan' => $mataKuliah->diajukan,
             ];
