@@ -26,13 +26,28 @@ class BuatIRSMahasiswaController extends Controller
         return redirect()->route('home');
     }
 
+    $dateNow = now();
+
+    $tahunAkademik = KalenderAkademik::where('keterangan', 'Periode Tahun Akademik')
+        ->whereDate('tanggal_mulai', '<=', $dateNow)
+        ->whereDate('tanggal_selesai', '>=', $dateNow)
+        ->first();
+    $tahunAkademikSplit = explode('-', $tahunAkademik->tahun_akademik);
+    $tahun = (int) $tahunAkademikSplit[0];
+    $periode = (int) $tahunAkademikSplit[1] % 2;
+    $semester = $periode % 2 == 0 ? "Ganjil" : "Genap";
+
     $mahasiswa = Mahasiswa::where('user_id', $user->id)->get()->first();
     $programStudi = ProgramStudi::where('id_prodi', $mahasiswa->id_prodi)->first();
     $mahasiswa->nama_prodi = $programStudi->nama_prodi;
     $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
     $mahasiswa->nama_fakultas = $fakultas->nama_fakultas;
+    $mahasiswa->tahun_ajaran = ''.($tahun-$periode).'/'.($tahun-$periode+1).' '.$semester;
+    error_log($mahasiswa);
 
     $jadwal = Kelas::join('mata_kuliah', 'kelas.kode_mk', '=', 'mata_kuliah.kode_mk')
+        ->where('kelas.tahun', $tahun)
+        ->whereRaw('MOD(kelas.semester, 2) = ?', [1-$periode])
         ->join('jadwal_kuliah', 'kelas.id', '=', 'jadwal_kuliah.id_kelas')
         ->where('mata_kuliah.id_prodi', operator: $mahasiswa->id_prodi)
         ->join('ruangan', 'ruangan.id_ruang', '=', 'jadwal_kuliah.id_ruang')
@@ -65,6 +80,8 @@ class BuatIRSMahasiswaController extends Controller
         ->values();
     
     $irs = Irs::join('kelas', 'irs.id_kelas', '=', 'kelas.id')
+        ->where('kelas.tahun', $tahun)
+        ->whereRaw('MOD(kelas.semester, 2) = ?', [1-$periode])
         ->join('mata_kuliah', 'kelas.kode_mk', '=', 'mata_kuliah.kode_mk')
         ->where('irs.nim', $mahasiswa->nim)
         ->join('jadwal_kuliah', 'jadwal_kuliah.id_kelas', '=', 'kelas.id')

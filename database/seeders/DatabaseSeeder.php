@@ -29,9 +29,8 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             RuanganSeeder::class,
             MataKuliahSeeder::class,
-            KelasSeeder::class,
-            JadwalKuliahSeeder::class,
-            IrsSeeder::class,
+            JadwalKelasSeeder::class,
+            IrsKhsSeeder::class,
             KalenderAkademikSeeder::class,
         ]);
     }

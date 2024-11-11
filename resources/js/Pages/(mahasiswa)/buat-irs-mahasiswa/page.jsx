@@ -156,8 +156,8 @@ const BuatIRSMahasiswa = () => {
         }
         setRegisteredCourses(initialRegisteredCourses);
         setSelectedCourses(initialCourseSelect);
-        setIsSubmitted(Boolean(irs[0].sudah_diajukan));
-        setIsVerified(Boolean(irs[0].sudah_disetujui));
+        setIsSubmitted(irs.length > 0 && Boolean(irs[0].sudah_diajukan));
+        setIsVerified(irs.length > 0 && Boolean(irs[0].sudah_disetujui));
     }, []);
 
     // Handle class selection
@@ -326,7 +326,7 @@ const BuatIRSMahasiswa = () => {
                                                                         : matkulRegistered
                                                                         ? "cursor-not-allowed bg-yellow-100 hover:bg-yellow-200"
                                                                         : bentrok
-                                                                        ? "cursor-not-allowed bg-red-300 hover:bg-red-400"
+                                                                        ? "cursor-not-allowed bg-red-400 hover:bg-red-500"
                                                                         : isSubmitted || isVerified
                                                                         ? "cursor-not-allowed bg-blue-200 hover:bg-blue-300"
                                                                         : "cursor-pointer bg-blue-200 hover:bg-blue-300"
@@ -473,11 +473,11 @@ const BuatIRSMahasiswa = () => {
                                         <label className="w-24">
                                             Tahun Ajaran
                                         </label>
-                                        <span>: 2024/2025 Ganjil </span>
+                                        <span>: {mahasiswa.tahun_ajaran} </span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">Semester</label>
-                                        <span>: 3 </span>
+                                        <span>: {mahasiswa.semester} </span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">IPK</label>
