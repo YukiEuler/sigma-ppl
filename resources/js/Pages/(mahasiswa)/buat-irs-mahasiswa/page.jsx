@@ -29,6 +29,7 @@ const BuatIRSMahasiswa = () => {
     const [registeredCourses, setRegisteredCourses] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
     const dropdownRef = useRef(null);
     const [isWithinSchedule, setIsWithinSchedule] = useState(false);
 
@@ -137,6 +138,8 @@ const BuatIRSMahasiswa = () => {
         }
         setRegisteredCourses(initialRegisteredCourses);
         setSelectedCourses(initialCourseSelect);
+        setIsSubmitted(Boolean(irs[0].sudah_diajukan));
+        setIsVerified(Boolean(irs[0].sudah_disetujui));
     }, [irs]);
 
     // Handle class selection
@@ -188,6 +191,10 @@ const BuatIRSMahasiswa = () => {
 
     // Handle submission
     const handleSubmit = () => {
+        Inertia.visit('/mahasiswa/buat-irs/ubah-status/', {
+            method: 'get',
+            preserveState: true,
+        });
         setIsSubmitted(!isSubmitted);
     };
 
@@ -280,7 +287,11 @@ const BuatIRSMahasiswa = () => {
                                                             )
                                                         });
                                                         let tooltipMessage = '';
-                                                        if (kelasRegistered) {
+                                                        if (isVerified) {
+                                                            tooltipMessage = 'IRS telah disetujui';
+                                                        } else if (isSubmitted) {
+                                                            tooltipMessage = 'IRS telah diajukan';
+                                                        } else if (kelasRegistered) {
                                                             tooltipMessage = 'Kelas sudah terdaftar';
                                                         } else if (matkulRegistered) {
                                                             tooltipMessage = 'Mata kuliah sudah terdaftar';
@@ -296,12 +307,16 @@ const BuatIRSMahasiswa = () => {
                                                                         ? "cursor-not-allowed bg-green-100 hover:bg-green-200"
                                                                         : matkulRegistered || bentrok
                                                                         ? "cursor-not-allowed bg-red-100 hover:bg-red-200"
+                                                                        : isSubmitted || isVerified
+                                                                        ? "cursor-not-allowed bg-blue-100 hover:bg-blue-200"
                                                                         : "cursor-pointer bg-blue-100 hover:bg-blue-200"
                                                                 }`}
                                                                 onClick={() =>
                                                                     !kelasRegistered &&
                                                                     !matkulRegistered &&
                                                                     !bentrok &&
+                                                                    !isSubmitted &&
+                                                                    !isVerified &&
                                                                     handleClassSelect(
                                                                         course,
                                                                         classInfo
@@ -651,16 +666,18 @@ const BuatIRSMahasiswa = () => {
                                                         }
                                                     </div>
                                                 </div>
-                                                <button
-                                                    onClick={() =>
-                                                        handleRemoveCourse(
-                                                            course.selectedClass.id_kelas
-                                                        )
-                                                    }
-                                                    className="text-red-500"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
+                                                {!isSubmitted && !isVerified && (
+                                                    <button
+                                                        onClick={() =>
+                                                            handleRemoveCourse(
+                                                                course.selectedClass.id_kelas
+                                                            )
+                                                        }
+                                                        className="text-red-500"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
@@ -676,16 +693,44 @@ const BuatIRSMahasiswa = () => {
                                             {totalCredits}
                                         </span>
                                     </div>
-                                    <button
-                                        onClick={handleSubmit}
-                                        className={`w-full p-2 rounded-md ${
-                                            isSubmitted
-                                                ? "bg-red-500 text-white hover:bg-red-600"
-                                                : "bg-green-500 text-white hover:bg-green-600"
-                                        }`}
-                                    >
-                                        {isSubmitted ? "Batalkan" : "Ajukan"}
-                                    </button>
+                                    {!isVerified && (
+                                        <button
+                                            onClick={() => {
+                                                Swal.fire({
+                                                    title: 'Apakah Anda yakin?',
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: isSubmitted ? 'Ya, batalkan!' : 'Ya, ajukan!'
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        handleSubmit();
+                                                        Swal.fire(
+                                                            isSubmitted ? 'Dibatalkan!' : 'Diajukan!',
+                                                            isSubmitted ? 'Pengajuan IRS telah dibatalkan.' : 'IRS Anda telah diajukan.',
+                                                            'success'
+                                                        );
+                                                    }
+                                                });
+                                            }}
+                                            className={`w-full p-2 rounded-md ${
+                                                isSubmitted
+                                                    ? "bg-red-500 text-white hover:bg-red-600"
+                                                    : "bg-green-500 text-white hover:bg-green-600"
+                                            }`}
+                                        >
+                                            {isSubmitted ? "Batalkan" : "Ajukan"}
+                                        </button>
+                                    )}
+                                    {isVerified && (
+                                        <button
+                                            className={`w-full p-2 rounded-md bg-gray-500 text-white hover:bg-gray-600 cursor-not-allowed`}
+                                            disabled
+                                        >
+                                            {"IRS telah disetujui"}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>

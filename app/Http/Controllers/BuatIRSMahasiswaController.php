@@ -34,7 +34,7 @@ class BuatIRSMahasiswaController extends Controller
 
     $jadwal = Kelas::join('mata_kuliah', 'kelas.kode_mk', '=', 'mata_kuliah.kode_mk')
         ->join('jadwal_kuliah', 'kelas.id', '=', 'jadwal_kuliah.id_kelas')
-        ->where('mata_kuliah.id_prodi', $mahasiswa->id_prodi)
+        ->where('mata_kuliah.id_prodi', operator: $mahasiswa->id_prodi)
         ->join('ruangan', 'ruangan.id_ruang', '=', 'jadwal_kuliah.id_ruang')
         ->select('kelas.kode_kelas', 'kelas.kuota', 'mata_kuliah.*', 'jadwal_kuliah.*', 'ruangan.nama_ruang')
         ->get()
@@ -67,7 +67,7 @@ class BuatIRSMahasiswaController extends Controller
         ->join('mata_kuliah', 'kelas.kode_mk', '=', 'mata_kuliah.kode_mk')
         ->where('irs.nim', $mahasiswa->nim)
         ->join('jadwal_kuliah', 'jadwal_kuliah.id_kelas', '=', 'kelas.id')
-        ->select('kelas.*', 'mata_kuliah.nama', 'mata_kuliah.sks', 'mata_kuliah.kode_mk', 'jadwal_kuliah.hari', 'jadwal_kuliah.waktu_mulai', 'jadwal_kuliah.waktu_selesai', 'irs.diajukan')
+        ->select('kelas.*', 'mata_kuliah.nama', 'mata_kuliah.sks', 'mata_kuliah.kode_mk', 'jadwal_kuliah.hari', 'jadwal_kuliah.waktu_mulai', 'jadwal_kuliah.waktu_selesai', 'irs.is_verified', 'irs.diajukan')
         ->get()
         ->groupBy('kode_mk')
         ->map(function ($group) {
@@ -87,6 +87,7 @@ class BuatIRSMahasiswaController extends Controller
                 'nama' => $mataKuliah->nama,
                 'sks' => $mataKuliah->sks,
                 'selectedClass' => $mataKuliah->kelas[0],
+                'sudah_disetujui' => $mataKuliah->is_verified,
                 'sudah_diajukan' => $mataKuliah->diajukan,
             ];
         })
@@ -147,6 +148,19 @@ class BuatIRSMahasiswaController extends Controller
             return redirect()->back()->withErrors(['error' => 'Mata kuliah tidak sesuai dengan program studi Anda.']);
         }
         
-        Irs::where('id_kelas', $id_kelas)->delete();
+        Irs::where('id_kelas', $id_kelas)
+            ->where('nim', $mahasiswa->nim)
+            ->delete();
+    }
+
+    public function ubahstatus(){
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->get()->first();
+        $disetujui = Irs::where('nim', $mahasiswa->nim)->first()->is_verified;
+        if ($disetujui === 1){
+            return redirect()->back()->withErrors(['error' => 'IRS Sudah Disetujui.']);
+        }
+        $status = Irs::where('nim', $mahasiswa->nim)->first()->diajukan;
+        Irs::where('nim', $mahasiswa->nim)->update(['diajukan' => 1-$status]);
     }
 }

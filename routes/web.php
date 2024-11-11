@@ -52,7 +52,8 @@ Route::get('mahasiswa/dashboard', [MahasiswaController::class, 'index'])->name('
 Route::get('mahasiswa/irs', [IRSMahasiswaController::class, 'index'])->name('mahasiswa.irs')->middleware(['auth', 'validateRole:Mahasiswa']);
 Route::get('mahasiswa/buat-irs', [BuatIRSMahasiswaController::class, 'index'])->name('mahasiswa.buatirs')->middleware(['auth', 'validateRole:Mahasiswa']);
 Route::get('mahasiswa/buat-irs/insert/{id_kelas}', [BuatIRSMahasiswaController::class, 'insert'])->name('mahasiswa.insertirs')->middleware(['auth', 'validateRole:Mahasiswa']);
-Route::get('mahasiswa/buat-irs/delete/{id_kelas}', [BuatIRSMahasiswaController::class, 'delete'])->name('mahasiswa.insertirs')->middleware(['auth', 'validateRole:Mahasiswa']);
+Route::get('mahasiswa/buat-irs/delete/{id_kelas}', [BuatIRSMahasiswaController::class, 'delete'])->name('mahasiswa.deleteirs')->middleware(['auth', 'validateRole:Mahasiswa']);
+Route::get('mahasiswa/buat-irs/ubah-status', [BuatIRSMahasiswaController::class, 'ubahstatus'])->name('mahasiswa.ubahstatus')->middleware(['auth', 'validateRole:Mahasiswa']);
 
 Route::get('dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard')->middleware(['auth', 'validateRole:Dosen']);
 Route::get('dosen/perwalian', [PerwalianDosenController::class, 'index'])->name('dosen.perwalian')->middleware(['auth', 'validateRole:Dosen']);
