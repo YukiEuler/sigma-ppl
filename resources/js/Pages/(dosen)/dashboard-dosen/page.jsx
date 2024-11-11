@@ -8,10 +8,6 @@ const DashboardDosen = () => {
     const dosenData = props.dosen;
     const [dosen, setDosen] = useState(dosenData);
 
-    useEffect(() => {
-        setDosen(dosenData);
-    }, [dosenData]);
-
     const allStudents = [
         {
             id: 1,
@@ -221,9 +217,13 @@ const DashboardDosen = () => {
         (s) => s.irsStatus === "Sudah" && s.verificationStatus === "Sudah"
     ).length;
 
+    useEffect(() => {
+        setDosen(dosenData);
+    }, [dosenData]);
+
     return (
         <DosenLayout dosen={dosen}>
-            <main className="flex-1 max-h-full">
+             <main className="flex-1 max-h-full">
                 <div className="flex flex-col items-start justify-between mt-2 pb-3 space-y-4 border-b lg:items-center lg:space-y-0 lg:flex-row">
                     <h1 className="text-2xl font-semibold whitespace-nowrap text-black">
                         Dashboard
