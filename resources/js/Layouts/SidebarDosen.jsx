@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
+import { MdOutlineDashboard } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
+import { BsPeople } from "react-icons/bs";
+import { RiContactsBook2Line } from "react-icons/ri";
+import { HiOutlineAcademicCap } from "react-icons/hi2";
+import { IoIosLogOut } from "react-icons/io";
 
 const SidebarDosen = ({ dosen }) => {
     useEffect(() => {
@@ -13,14 +18,14 @@ const SidebarDosen = ({ dosen }) => {
         >
             <div className="container mx-auto py-[13px] bg-[#1EAADF]">
                 <div className="flex justify-center items-center    ">
-                    <a href="dashboard">
+                    <a href="/dosen/dashboard">
                         <img
                             src="/logoundip.png"
                             style={{ width: "35px", height: "25px" }}
                         />
                     </a>
                     <a
-                        href="dashboard"
+                        href="/dosen/dashboard"
                         className="font-serif font-semibold text-xl text-white"
                     >
                         SIGMA UNDIP
@@ -29,17 +34,14 @@ const SidebarDosen = ({ dosen }) => {
             </div>
             <div className="border-3 border-blue-500"></div>
             <div
-                className="h-full px-3 py-4 overflow-y-auto"
+                className="h-full px-3 py-4 overflow-y-auto bg-gray-50"
                 style={{ backgroundColor: "#1EAADF" }}
             >
                 <ul className="space-y-2 font-medium">
                     <li>
-                        <Icon
-                            icon="gg:profile"
-                            color="white"
-                            width="150"
-                            height="150"
-                            className="mx-auto mt-4"
+                        <CgProfile
+                            className="mx-auto text-white"
+                            style={{ fontSize: "150px" }}
                         />
                         <div className="flex flex-col p-2 mb-3">
                             <span className="dark:text-white text-xl">
@@ -56,52 +58,62 @@ const SidebarDosen = ({ dosen }) => {
                     <li>
                         <a
                             href="/dosen/dashboard"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white group"
                         >
-                            <Icon
-                                icon="mingcute:home-3-fill"
-                                width="24"
-                                height="24"
-                            />
-                            <span className="ms-3">Home</span>
+                            <MdOutlineDashboard style={{ fontSize: "24px" }} />
+                            <span className="ms-3">Dashboard</span>
                         </a>
                     </li>
                     <li>
                         <a
                             href="/dosen/perwalian"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white group"
                         >
-                            <Icon
-                                icon="fluent:people-team-16-filled"
-                                width="24"
-                                height="24"
-                            />
+                            <BsPeople style={{ fontSize: "24px" }} />
                             <span className="ms-3">Perwalian</span>
                         </a>
                     </li>
                     <li>
                         <a
                             href="/dosen/rekap-irs"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white group"
                         >
-                            <Icon
-                                icon="solar:notebook-bookmark-bold"
-                                width="24"
-                                height="24"
-                            />
+                            <RiContactsBook2Line style={{ fontSize: "24px" }} />
                             <span className="ms-3">Rekap IRS</span>
                         </a>
                     </li>
                     <li>
+                        {dosen.dekan === 1 && (
+                            <a
+                                href="/dekan/dashboard"
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white group"
+                            >
+                                <HiOutlineAcademicCap
+                                    style={{ fontSize: "24px" }}
+                                />
+                                <span className="ms-3">Dekan Page</span>
+                            </a>
+                        )}
+                    </li>
+                    <li>
+                        {dosen.kaprodi === 1 && (
+                            <a
+                                href="/kaprodi/dashboard"
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white group"
+                            >
+                                <HiOutlineAcademicCap
+                                    style={{ fontSize: "24px" }}
+                                />
+                                <span className="ms-3">Kaprodi Page</span>
+                            </a>
+                        )}
+                    </li>
+                    <li>
                         <a
                             href="/actionlogout"
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-white group"
                         >
-                            <Icon
-                                icon="ri:logout-box-r-fill"
-                                width="24"
-                                height="24"
-                            />
+                            <IoIosLogOut style={{ fontSize: "24px" }} />
                             <span className="flex-1 ms-3 whitespace-nowrap">
                                 Logout
                             </span>
