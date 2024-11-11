@@ -20,4 +20,9 @@ class Ruangan extends Model
     {
         return $this->belongsTo(ProgramStudi::class, 'id_prodi');
     }
+
+    public function jadwalKuliah()
+    {
+        return $this->hasMany(JadwalKuliah::class, 'id_ruang', 'id_ruang');
+    }
 }

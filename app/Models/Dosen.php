@@ -16,10 +16,11 @@ class Dosen extends Model
         return $this->belongsTo(ProgramStudi::class, 'id_prodi');
     }
 
-    public function mataKuliah()
-    {
-        return $this->belongsToMany(MataKuliah::class, 'dosen_mk', 'nip', 'kodemk');
-    }
+    // public function mataKuliah()
+    // {
+    //     return $this->belongsToMany(MataKuliah::class, 'dosen_mk', 'nip', 'kode_mk')
+    //                 ->withPivot('tahun_akademik');
+    // }
 
     public function user()
     {
@@ -29,5 +30,10 @@ class Dosen extends Model
     public function mahasiswa()
     {
         return $this->hasMany(Mahasiswa::class, 'nip_wali');
+    }
+
+    public function dosenMk()
+    {
+        return $this->hasMany(DosenMk::class, 'nip', 'nip');
     }
 }

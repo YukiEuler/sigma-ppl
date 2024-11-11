@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             MataKuliahSeeder::class,
             JadwalKelasSeeder::class,
             IrsKhsSeeder::class,
+            DosenMkSeeder::class,
             KalenderAkademikSeeder::class,
         ]);
     }
