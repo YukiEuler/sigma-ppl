@@ -40,5 +40,13 @@ class KalenderAkademikSeeder extends Seeder
             'tahun_akademik'=> '2024-2',
             'keterangan'=>'Periode Tahun Akademik',
         ]);
+        KalenderAkademik::create([
+            'tanggal_mulai' => '2024-08-09',
+            'tanggal_selesai'=>'2024-12-27',
+            'id_prodi'=> NULL,
+            'id_fakultas'=> NULL,
+            'tahun_akademik'=> '2024-2',
+            'keterangan'=>'Pengisian IRS',
+        ]);
     }
 }

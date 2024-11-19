@@ -11,6 +11,7 @@ use App\Models\Mahasiswa;
 use App\Models\ProgramStudi;
 use App\Models\KalenderAkademik;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -43,7 +44,35 @@ class BuatIRSMahasiswaController extends Controller
     $fakultas = Fakultas::where('id_fakultas', $programStudi->id_fakultas)->first();
     $mahasiswa->nama_fakultas = $fakultas->nama_fakultas;
     $mahasiswa->tahun_ajaran = ''.($tahun-$periode).'/'.($tahun-$periode+1).' '.$semester;
-    error_log($mahasiswa);
+    
+    $ips = Khs::join('mahasiswa', 'khs.nim', '=', 'mahasiswa.nim')
+        ->select(DB::raw('SUM(khs.bobot * CASE 
+            WHEN khs.nilai_huruf = "A" THEN 4
+            WHEN khs.nilai_huruf = "B" THEN 3
+            WHEN khs.nilai_huruf = "C" THEN 2
+            WHEN khs.nilai_huruf = "D" THEN 1
+            ELSE 0
+        END) / SUM(khs.bobot) as IPS'))
+        ->where('mahasiswa.nim', $mahasiswa->nim)
+        ->whereRaw('khs.semester + 1 = mahasiswa.semester')
+        ->groupBy('mahasiswa.nim')
+        ->first()
+        ->IPS;
+    $mahasiswa->ips = round($ips, 2);
+    $maxSks = 0;
+    $semester = $mahasiswa->semester;
+    if ($semester == 1){
+        $maxSks = 20;
+    } elseif ($ips < 2){
+        $maxSks = 18;
+    } elseif ($semester == 2 || $ips < 2.5){
+        $maxSks = 20;
+    } elseif ($ips < 3){
+        $maxSks = 22;
+    } else {
+        $maxSks = 24;
+    }
+    $mahasiswa->maxSks = $maxSks;
 
     $jadwal = Kelas::join('mata_kuliah', 'kelas.kode_mk', '=', 'mata_kuliah.kode_mk')
         ->where('kelas.tahun', $tahun)
@@ -125,7 +154,6 @@ class BuatIRSMahasiswaController extends Controller
         }
 
         $dateNow = now();
-        $yearNow = $dateNow->year;
 
         $tahunAkademik = KalenderAkademik::where('keterangan', 'Periode Tahun Akademik')
             ->whereDate('tanggal_mulai', '<=', $dateNow)
@@ -173,12 +201,21 @@ class BuatIRSMahasiswaController extends Controller
 
     public function ubahstatus(){
         $user = Auth::user();
+
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->get()->first();
-        $disetujui = Irs::where('nim', $mahasiswa->nim)->first()->is_verified;
+        $disetujui = Irs::where('nim', $mahasiswa->nim)
+                ->where('semester', $mahasiswa->semester)
+                ->first()
+                ->is_verified;
         if ($disetujui === 1){
             return redirect()->back()->withErrors(['error' => 'IRS Sudah Disetujui.']);
         }
-        $status = Irs::where('nim', $mahasiswa->nim)->first()->diajukan;
-        Irs::where('nim', $mahasiswa->nim)->update(['diajukan' => 1-$status]);
+        $status = Irs::where('nim', $mahasiswa->nim)
+            ->where('semester', $mahasiswa->semester)
+            ->first()
+            ->diajukan;
+        Irs::where('nim', $mahasiswa->nim)
+            ->where('semester', $mahasiswa->semester)
+            ->update(['diajukan' => 1-$status]);
     }
 }

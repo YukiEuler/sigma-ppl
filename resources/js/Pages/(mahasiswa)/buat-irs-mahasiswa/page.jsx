@@ -97,12 +97,6 @@ const BuatIRSMahasiswa = () => {
         )} ${monthName} ${year}`;
     };
 
-    // const filteredCourses = jadwalData.filter(
-    //     (course) =>
-    //         course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //         course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())
-    // );
-
     // Calculate total credits
     const totalCredits = registeredCourses.reduce(
         (sum, course) => sum + course.sks,
@@ -111,14 +105,11 @@ const BuatIRSMahasiswa = () => {
 
     // Handle course selection from dropdown
     const handleCourseSelect = (course) => {
-        console.log(selectedCourses);
-        console.log(course);
         if (
             !selectedCourses.some(
                 (selected) => selected.kode_mk === course.kode_mk
             )
         ) {
-            console.log("Masuk");
             setSelectedCourses([...selectedCourses, course]);
             setFilteredCourses(filteredCourses.filter((c) => c.kode_mk !== course.kode_mk));
         }
@@ -140,9 +131,10 @@ const BuatIRSMahasiswa = () => {
     useEffect(() => {
         setFilteredCourses(jadwalData.filter(
             (course) =>
-            (course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())) &&
-            !irs.some((registeredCourse) => registeredCourse.kode_mk === course.kode_mk)
+                (course.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                course.kode_mk.toLowerCase().includes(searchQuery.toLowerCase())) &&
+                !irs.some((registeredCourse) => registeredCourse.kode_mk === course.kode_mk) &&
+                course.semester != mahasiswa.semester
         ));
     }, []);
 
@@ -153,6 +145,18 @@ const BuatIRSMahasiswa = () => {
             initialRegisteredCourses.push(course);
             const elm = jadwalData.find((filteredCourse) => filteredCourse.kode_mk === course.kode_mk);
             initialCourseSelect.push(elm);
+        }
+        const filteredJadwal = jadwal.filter((elm) => elm.semester == mahasiswa.semester);
+        const updatedFilteredJadwal = filteredJadwal.map((course) => {
+            const updatedCourse = { ...course };
+            updatedCourse.selectedClass = updatedCourse.jadwal_kuliah;
+            delete updatedCourse.jadwal_kuliah;
+            return updatedCourse;
+        }).sort((a, b) => a.kode_mk.localeCompare(b.kode_mk));
+        for (const course of updatedFilteredJadwal) {
+            if (initialRegisteredCourses.some((registeredCourse) => registeredCourse.kode_mk === course.kode_mk)) continue;
+            const elm = jadwalData.find((filteredCourse) => filteredCourse.kode_mk === course.kode_mk);
+            if (elm) initialCourseSelect.push(elm);
         }
         setRegisteredCourses(initialRegisteredCourses);
         setSelectedCourses(initialCourseSelect);
@@ -304,6 +308,7 @@ const BuatIRSMahasiswa = () => {
                                                                 parseTime(jadwal.waktu_selesai) >= parseTime(classInfo.waktu_mulai)
                                                             )
                                                         });
+                                                        const maxSks = totalCredits + course.sks > mahasiswa.maxSks;
                                                         let tooltipMessage = '';
                                                         if (isVerified) {
                                                             tooltipMessage = 'IRS telah disetujui';
@@ -315,6 +320,8 @@ const BuatIRSMahasiswa = () => {
                                                             tooltipMessage = 'Mata kuliah sudah terdaftar';
                                                         } else if (bentrok) {
                                                             tooltipMessage = 'Jadwal bentrok';
+                                                        } else if (maxSks) {
+                                                            tooltipMessage = 'Melebihi batasan SKS';
                                                         }
 
                                                         return (
@@ -325,7 +332,7 @@ const BuatIRSMahasiswa = () => {
                                                                         ? "cursor-not-allowed bg-green-400 hover:bg-green-500"
                                                                         : matkulRegistered
                                                                         ? "cursor-not-allowed bg-yellow-100 hover:bg-yellow-200"
-                                                                        : bentrok
+                                                                        : bentrok || maxSks
                                                                         ? "cursor-not-allowed bg-red-400 hover:bg-red-500"
                                                                         : isSubmitted || isVerified
                                                                         ? "cursor-not-allowed bg-blue-200 hover:bg-blue-300"
@@ -337,6 +344,7 @@ const BuatIRSMahasiswa = () => {
                                                                     !bentrok &&
                                                                     !isSubmitted &&
                                                                     !isVerified &&
+                                                                    !maxSks &&
                                                                     handleClassSelect(
                                                                         course,
                                                                         classInfo
@@ -485,13 +493,13 @@ const BuatIRSMahasiswa = () => {
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">IPS</label>
-                                        <span>: 3.78 </span>
+                                        <span>: {mahasiswa.ips} </span>
                                     </div>
                                     <div className="student-info-item flex text-xs">
                                         <label className="w-24">
                                             Max Beban SKS
                                         </label>
-                                        <span>: 24 </span>
+                                        <span>: {mahasiswa.maxSks} </span>
                                     </div>
                                 </div>
                             </div>

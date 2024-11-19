@@ -25,6 +25,7 @@ class IRSMahasiswaController extends Controller
         $mahasiswa->nama_dosen_wali = $dosen->nama;
         
         $irs = IRS::where('nim', $mahasiswa->nim)
+            ->where('diajukan', 1)
             ->join('kelas', 'kelas.id', '=', 'irs.id_kelas')
             ->join('mata_kuliah', 'mata_kuliah.kode_mk', '=', 'kelas.kode_mk')
             ->select('*', 'irs.semester as irs_semester')
