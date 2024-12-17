@@ -39,10 +39,6 @@ const SidebarDosen = ({ dosen }) => {
             >
                 <ul className="space-y-2 font-medium">
                     <li>
-                        <CgProfile
-                            className="mx-auto text-white"
-                            style={{ fontSize: "150px" }}
-                        />
                         <div className="flex flex-col p-2 mb-3">
                             <span className="dark:text-white text-xl">
                                 {dosen.nama}

@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/inertia-react";
 import { Calendar } from "lucide-react";
 import MahasiswaLayout from "../../../Layouts/MahasiswaLayout";
 
-const AltIRSMahasiswa = () => {
+const PeriodeIRS = () => {
     const { props } = usePage();
     const mahasiswa = props.mahasiswa;
     const periode =  props.periode;
@@ -52,7 +52,7 @@ const AltIRSMahasiswa = () => {
                     Buat IRS
                 </h1>
             </div>
-            <div className="flex flex-col items-center justify-center h-full bg-gray-50">
+            <div className="flex flex-col items-center justify-center h-full">
                 <div className="text-center mb-8">
                     <div className="mx-auto mb-4 flex justify-center">
                         <Calendar className="w-16 h-16 text-gray-400" />
@@ -80,4 +80,4 @@ const AltIRSMahasiswa = () => {
     );
 };
 
-export default AltIRSMahasiswa;
+export default PeriodeIRS;

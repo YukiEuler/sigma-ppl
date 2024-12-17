@@ -31,13 +31,6 @@ const SidebarMahasiswa = ({ mahasiswa }) => {
             >
                 <ul class="space-y-2 font-medium">
                     <li>
-                        <Icon
-                            icon="gg:profile"
-                            color="white"
-                            width="150"
-                            height="150"
-                            className="mx-auto mt-4"
-                        />
                         <div className="flex flex-col p-2 mb-3">
                             <span className="dark:text-white text-xl">
                                 {mahasiswa.nama}

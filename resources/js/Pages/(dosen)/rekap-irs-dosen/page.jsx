@@ -110,7 +110,7 @@ const RekapIRS = () => {
                                 : "text-gray-500"
                         }`}
                     >
-                        Belum IRS
+                        Belum IRS (13)
                     </button>
                     <button
                         onClick={() => handleTabClick("Belum Disetujui")}
@@ -120,7 +120,7 @@ const RekapIRS = () => {
                                 : "text-gray-500"
                         }`}
                     >
-                        Belum Disetujui
+                        Belum Disetujui (18)
                     </button>
                     <button
                         onClick={() => handleTabClick("Sudah Disetujui")}
@@ -130,7 +130,7 @@ const RekapIRS = () => {
                                 : "text-gray-500"
                         }`}
                     >
-                        Sudah Disetujui
+                        Sudah Disetujui (23)
                     </button>
                 </div>
                 <div className="grid grid-cols-1 mt-3">
@@ -224,7 +224,6 @@ const RekapIRS = () => {
 
                                 {activeTab === "Belum IRS" && (
                                     <div>
-                                        Belum IRS
                                         <div className="relative overflow-x-auto mt-1 rounded-lg overflow-auto h-[370px] scrollbar-hide">
                                             <style jsx>{`
                                                 .scrollbar-hide::-webkit-scrollbar {
